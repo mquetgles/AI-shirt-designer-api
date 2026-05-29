@@ -8,7 +8,7 @@ input,select{width:100%;padding:8px;margin-bottom:12px;border:1px solid #ddd;bor
 button{width:100%;padding:12px;background:#000;color:#fff;border:none;border-radius:6px;font-size:16px;cursor:pointer;}
 #result{margin-top:20px;text-align:center;}
 #result img{max-width:100%;border-radius:8px;}
-#status{margin-top:10px;color:#666;font-size:13px;}
+#status{margin-top:10px;color:#666;font-size:13px;word-break:break-all;}
 </style>
 </head>
 <body>
@@ -17,12 +17,12 @@ button{width:100%;padding:12px;background:#000;color:#fff;border:none;border-rad
 <input id="sub" placeholder="Secondary text" />
 <input id="icons" placeholder="Icons/elements (e.g. palm trees, stars)" />
 <select id="style">
-  <option value="digital_illustration">Bold</option>
-  <option value="digital_illustration/hand_drawn">Graffiti</option>
-  <option value="digital_illustration/vintage">Vintage</option>
-  <option value="digital_illustration/flat">Minimal</option>
-  <option value="digital_illustration/80s">Retro</option>
-  <option value="digital_illustration/bold_stroke">Athletic</option>
+  <option value="digital_illustration|bold_fantasy">Bold</option>
+  <option value="digital_illustration|street_art">Graffiti</option>
+  <option value="digital_illustration|antiquarian">Vintage</option>
+  <option value="vector_illustration|line_art">Minimal</option>
+  <option value="digital_illustration|neon_calm">Retro</option>
+  <option value="digital_illustration|graphic_intensity">Athletic</option>
 </select>
 <button onclick="generate()">Generate Design</button>
 <div id="result"></div>
@@ -36,14 +36,17 @@ async function generate() {
   document.getElementById('result').innerHTML = '';
   try {
     const prompt = `Professional t-shirt graphic design. Main text "${main}". Secondary text "${document.getElementById('sub').value}". Icons: ${document.getElementById('icons').value}. Screen-print ready, high contrast, centered composition, apparel graphic.`;
+    const styleParts = document.getElementById('style').value.split('|');
+    const body = {
+      prompt: prompt,
+      style: styleParts[0],
+      substyle: styleParts[1],
+      model: 'recraftv3'
+    };
     const resp = await fetch('https://ai-shirt-designer-api.vercel.app/api/generate', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        prompt: prompt,
-        style: document.getElementById('style').value,
-        model: 'recraftv3'
-      })
+      body: JSON.stringify(body)
     });
     const data = await resp.json();
     console.log('Response:', JSON.stringify(data));
