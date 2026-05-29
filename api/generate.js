@@ -8,16 +8,22 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const payload = {
-      prompt: req.body.prompt,
-      style: req.body.style || 'vector_illustration',
-      model: req.body.model || 'recraftv3',
-      size: req.body.size || '1024x1024',
-      n: req.body.n || 1
-    };
-
     const response = await fetch('https://external.api.recraft.ai/v1/images/generations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.RECRAFT_API_KEY}`
+      },
+      body: JSON.stringify(req.body)
+    });
+
+    const text = await response.text();
+    console.log('Recraft raw response:', text);
+    console.log('Recraft status:', response.status);
+    
+    res.status(200).json({ raw: text, status: response.status });
+  } catch (err) {
+    console.error('Error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+}
