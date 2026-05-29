@@ -20,58 +20,24 @@ button{width:100%;padding:12px;background:#000;color:#fff;border:none;border-rad
 <div id="status"></div>
 <script>
 async function generate() {
-  const main = document.getElementById('main').value.trim();
-  if(!main) return alert('Enter main text');
+  var main = document.getElementById('main').value.trim();
+  if(!main) { alert('Enter main text'); return; }
   document.getElementById('status').textContent = 'Generating...';
   document.getElementById('result').innerHTML = '';
-  try {
-    const resp = await fetch('https://ai-shirt-designer-api.vercel.app/api/generate', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        prompt: `T-shirt graphic design. Text says "${main}". Secondary text "${document.getElementById('sub').value}". Bold vector illustration, screen-print ready, high contrast.`,
-        style: 'digital_illustration',
-        model: 'recraftv3'
-      })
-    });
-    const data = await resp.json();
-    console.log('Response:', JSON.stringify(data));
-    if(data.data?.[0]?.url) {
-      document.getElementById('result').innerHTML = `<img src="${data.data[0].url}"/>`;
-      document.getElementById('status').textContent = 'Done!';
-    } else {
-      document.getElementById('status').textContent = JSON.stringify(data);
-    }
-  } catch(e) {
-    document.getElementById('status').textContent = e.message;
-  }
-}
-</script>
-</body>
-</html>  try {
-    const prompt = `Professional t-shirt graphic design. Main text "${main}". Secondary text "${document.getElementById('sub').value}". Icons: ${document.getElementById('icons').value}. Screen-print ready, high contrast, centered composition, apparel graphic.`;
-    const styleParts = document.getElementById('style').value.split('|');
-    const body = {
-      prompt: prompt,
-      style: styleParts[0],
-      substyle: styleParts[1],
+  var resp = await fetch('https://ai-shirt-designer-api.vercel.app/api/generate', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      prompt: 'T-shirt graphic design, text says ' + main + ', bold vector illustration, screen-print ready',
+      style: 'digital_illustration',
       model: 'recraftv3'
-    };
-    const resp = await fetch('https://ai-shirt-designer-api.vercel.app/api/generate', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(body)
-    });
-    const data = await resp.json();
-    console.log('Response:', JSON.stringify(data));
-    if(data.data && data.data[0] && data.data[0].url) {
-      document.getElementById('result').innerHTML = `<img src="${data.data[0].url}" />`;
-      document.getElementById('status').textContent = 'Done!';
-    } else {
-      document.getElementById('status').textContent = 'Error: ' + JSON.stringify(data);
-    }
-  } catch(e) {
-    document.getElementById('status').textContent = 'Error: ' + e.message;
+    })
+  });
+  var data = await resp.json();
+  document.getElementById('status').textContent = JSON.stringify(data);
+  if(data.data && data.data[0] && data.data[0].url) {
+    document.getElementById('result').innerHTML = '<img src="' + data.data[0].url + '"/>';
+    document.getElementById('status').textContent = 'Done!';
   }
 }
 </script>
