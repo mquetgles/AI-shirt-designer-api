@@ -8,7 +8,7 @@ input{width:100%;padding:8px;margin-bottom:12px;border:1px solid #ddd;border-rad
 button{width:100%;padding:12px;background:#000;color:#fff;border:none;border-radius:6px;font-size:16px;cursor:pointer;}
 #result{margin-top:20px;text-align:center;}
 #result img{max-width:100%;border-radius:8px;}
-#status{margin-top:10px;color:#666;font-size:13px;word-break:break-all;}
+#status{margin-top:10px;color:#666;font-size:13px;}
 </style>
 </head>
 <body>
@@ -16,28 +16,31 @@ button{width:100%;padding:12px;background:#000;color:#fff;border:none;border-rad
 <input id="main" placeholder="Main text (e.g. FAMILY REUNION 2025)" />
 <input id="sub" placeholder="Secondary text" />
 <button onclick="generate()">Generate Design</button>
-<div id="result"></div>
 <div id="status"></div>
+<div id="result"></div>
 <script>
 async function generate() {
   var main = document.getElementById('main').value.trim();
   if(!main) { alert('Enter main text'); return; }
-  document.getElementById('status').textContent = 'Generating...';
+  document.getElementById('status').textContent = 'Generating... (15-20 seconds)';
   document.getElementById('result').innerHTML = '';
   var resp = await fetch('https://ai-shirt-designer-api.vercel.app/api/generate', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      prompt: 'T-shirt graphic design, text says ' + main + ', bold vector illustration, screen-print ready',
+      prompt: 'T-shirt graphic design, text says ' + main + ', ' + document.getElementById('sub').value + ', bold vector illustration, screen-print ready, high contrast',
       style: 'digital_illustration',
       model: 'recraftv3'
     })
   });
-  var data = await resp.json();
-  document.getElementById('status').textContent = JSON.stringify(data);
-  if(data.data && data.data[0] && data.data[0].url) {
-    document.getElementById('result').innerHTML = '<img src="' + data.data[0].url + '"/>';
+  var text = await resp.text();
+  var data = JSON.parse(text);
+  var parsed = typeof data.raw === 'string' ? JSON.parse(data.raw) : data;
+  if(parsed.data && parsed.data[0] && parsed.data[0].url) {
+    document.getElementById('result').innerHTML = '<img src="' + parsed.data[0].url + '"/>';
     document.getElementById('status').textContent = 'Done!';
+  } else {
+    document.getElementById('status').textContent = JSON.stringify(parsed);
   }
 }
 </script>
