@@ -38,4 +38,25 @@ async function generate() {
     const prompt = `Professional t-shirt graphic design. Main text "${main}". Secondary text "${document.getElementById('sub').value}". Icons: ${document.getElementById('icons').value}. Screen-print ready, high contrast, centered composition, apparel graphic.`;
     const resp = await fetch('https://ai-shirt-designer-api.vercel.app/api/generate', {
       method: 'POST',
-      headers: {'Content-T
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        prompt: prompt,
+        style: document.getElementById('style').value,
+        model: 'recraftv3'
+      })
+    });
+    const data = await resp.json();
+    console.log('Response:', JSON.stringify(data));
+    if(data.data && data.data[0] && data.data[0].url) {
+      document.getElementById('result').innerHTML = `<img src="${data.data[0].url}" />`;
+      document.getElementById('status').textContent = 'Done!';
+    } else {
+      document.getElementById('status').textContent = 'Error: ' + JSON.stringify(data);
+    }
+  } catch(e) {
+    document.getElementById('status').textContent = 'Error: ' + e.message;
+  }
+}
+</script>
+</body>
+</html>
