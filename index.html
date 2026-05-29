@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Shirt Designer</title>
+<style>
+body{font-family:sans-serif;max-width:600px;margin:40px auto;padding:20px;}
+input,select{width:100%;padding:8px;margin-bottom:12px;border:1px solid #ddd;border-radius:6px;font-size:14px;}
+button{width:100%;padding:12px;background:#000;color:#fff;border:none;border-radius:6px;font-size:16px;cursor:pointer;}
+#result{margin-top:20px;text-align:center;}
+#result img{max-width:100%;border-radius:8px;}
+#status{margin-top:10px;color:#666;font-size:13px;}
+</style>
+</head>
+<body>
+<h2>AI Shirt Designer</h2>
+<input id="main" placeholder="Main text (e.g. FAMILY REUNION 2025)" />
+<input id="sub" placeholder="Secondary text" />
+<input id="icons" placeholder="Icons/elements (e.g. palm trees, stars)" />
+<select id="style">
+  <option>Bold</option>
+  <option>Graffiti</option>
+  <option>Vintage</option>
+  <option>Minimal</option>
+  <option>Retro</option>
+  <option>Athletic</option>
+</select>
+<button onclick="generate()">Generate Design</button>
+<div id="result"></div>
+<div id="status"></div>
+
+<script>
+async function generate() {
+  const main = document.getElementById('main').value.trim();
+  if(!main) return alert('Please enter main text');
+  document.getElementById('status').textContent = 'Generating... (15-25 seconds)';
+  document.getElementById('result').innerHTML = '';
+  try {
+    const prompt = `Professional t-shirt graphic design. Main text "${main}". Secondary text "${document.getElementById('sub').value}". Style: ${document.getElementById('style').value}. Icons: ${document.getElementById('icons').value}. Flat vector illustration, screen-print ready, high contrast, transparent background.`;
+    const resp = await fetch('https://ai-shirt-designer-api.vercel.app/api/generate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({prompt, style:'vector_illustration', model:'recraftv3', size:'1024x1024', n:1})
+    });
+    const data = await resp.json();
+    console.log('Response:', data);
+    if(data.data?.[0]?.url) {
+      document.getElementById('result').innerHTML = `<img src="${data.data[0].url}" />`;
+      document.getElementById('status').textContent = 'Done!';
+    } else {
+      document.getElementById('status').textContent = 'Error: ' + JSON.stringify(data);
+    }
+  } catch(e) {
+    document.getElementById('status').textContent = 'Error: ' + e.message;
+  }
+}
+</script>
+</body>
+</html>
