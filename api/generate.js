@@ -1,6 +1,4 @@
-export const config = { api: { bodyParser: true } };
-
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -12,18 +10,18 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.RECRAFT_API_KEY}`
+        'Authorization': 'Bearer ' + process.env.RECRAFT_API_KEY
       },
       body: JSON.stringify(req.body)
     });
 
     const text = await response.text();
-    console.log('Recraft raw response:', text);
-    console.log('Recraft status:', response.status);
-    
-    res.status(200).json({ raw: text, status: response.status });
+    console.log('Status:', response.status);
+    console.log('Body:', text);
+    return res.status(200).send(text);
+
   } catch (err) {
     console.error('Error:', err.message);
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 }
