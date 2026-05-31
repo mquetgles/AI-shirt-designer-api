@@ -285,7 +285,7 @@ async function callAPI(prompt, size, download) {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      prompt: download ? prompt+', isolated graphic artwork only, no shirt mockup, transparent background, print-ready file' : prompt,
+      prompt: download ? prompt+',  : prompt,
       style:'digital_illustration', model:'recraftv3',
       size: size||'1024x1024', download: download||false
     })
