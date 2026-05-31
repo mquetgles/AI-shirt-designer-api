@@ -296,7 +296,7 @@ async function callAPI(prompt, size) {
   if(!inner.data||!inner.data[0]||!inner.data[0].url) throw new Error(JSON.stringify(inner));
   return inner.data[0].url;
 }
-}
+
 
 async function generate(pl) {
   var s = state[pl];
