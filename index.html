@@ -363,19 +363,56 @@ function pick(pl, i) {
 
 async function downloadFile(pl) {
   var s = state[pl];
+  var selectedUrl = s.imgs[s.selV];
+  if(!selectedUrl) { alert('Please generate a design first'); return; }
   var btn = document.getElementById('dbtn-'+pl);
   btn.disabled = true;
-  btn.textContent = 'Generating...';
-  document.getElementById('stat-'+pl).textContent = 'Preparing print file...';
+  var stat = document.getElementById('stat-'+pl);
+
   try {
-    var url = await callAPI(s.lastPrompt, sizes[pl], true);
+    // Step 1: Remove background
+    stat.textContent = 'Removing background...';
+    btn.textContent = 'Processing...';
+    var rbResp = await fetch(API, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'remove_background', imageUrl: selectedUrl })
+    });
+    var rbText = await rbResp.text();
+    var rbOuter = JSON.parse(rbText);
+    var rbData = typeof rbOuter.raw==='string' ? JSON.parse(rbOuter.raw) : rbOuter;
+    var cleanUrl = rbData.image ? rbData.image.url : (rbData.data && rbData.data[0] ? rbData.data[0].url : null);
+    if(!cleanUrl) throw new Error('Background removal failed: ' + rbText);
+
+    // Step 2: Upscale
+    stat.textContent = 'Upscaling for print...';
+    var upResp = await fetch(API, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action:'upscale', imageUrl: cleanUrl })
+    });
+    var upText = await upResp.text();
+    var upOuter = JSON.parse(upText);
+    var upData = typeof upOuter.raw==='string' ? JSON.parse(upOuter.raw) : upOuter;
+    var finalUrl = upData.image ? upData.image.url : (upData.data && upData.data[0] ? upData.data[0].url : null);
+    if(!finalUrl) throw new Error('Upscale failed: ' + upText);
+
+    // Step 3: Download
+    stat.textContent = 'Downloading...';
     var a = document.createElement('a');
-    a.href = url; a.download = 'clubflyers-'+pl+'-design.png'; a.target = '_blank';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    document.getElementById('stat-'+pl).textContent = 'Print file downloaded!';
+    a.href = finalUrl;
+    a.download = 'clubflyers-'+pl+'-design.png';
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    stat.textContent = 'Print file downloaded! Background removed + upscaled.';
+
   } catch(e) {
-    document.getElementById('stat-'+pl).textContent = 'Download failed. Try again.';
+    console.error(e);
+    stat.textContent = 'Download failed: ' + e.message;
   }
+
   btn.disabled = false;
   btn.textContent = 'Download';
 }
