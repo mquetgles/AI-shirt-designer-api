@@ -398,7 +398,7 @@ function buildPrompt(pl, vi) {
   var col = (s.palette==='Team colors'&&tc1) ? tc1+(tc2?' and '+tc2:'')+' colors' : s.palDesc;
   var sub = st ? ', secondary text says "'+st+'"' : '';
   var ico = ic ? ', incorporating '+ic+' as graphic elements' : '';
-  return return 'Flat graphic design artwork for t-shirt printing. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. The design must be centered on a PURE SOLID WHITE background with NO texture, NO shirt, NO clothing, NO fabric, NO wrinkles, NO shadows, NO mockup. Clean crisp vector illustration style, isolated artwork only, print-ready, high contrast colors on white.';
+  return 'Flat graphic design artwork for t-shirt printing. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. The design must be centered on a PURE SOLID WHITE background with NO texture, NO shirt, NO clothing, NO fabric, NO wrinkles, NO shadows, NO mockup. Clean crisp vector illustration style, isolated artwork only, print-ready, high contrast colors on white.';
 async function callAPI(prompt, size) {
   var resp = await fetch(API, {
     method:'POST',
