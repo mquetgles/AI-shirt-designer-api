@@ -28,14 +28,11 @@ module.exports = async function handler(req, res) {
       return res.status(200).send(text);
     }
 
-    // Action: remove background from an existing image URL
+    // Action: remove background
     if (action === 'remove_background') {
-      // Fetch the image from the URL
       const imgResp = await fetch(imageUrl);
       const imgBuffer = await imgResp.arrayBuffer();
       const imgBytes = Buffer.from(imgBuffer);
-
-      // Build multipart form
       const boundary = '----FormBoundary' + Math.random().toString(36).slice(2);
       const header = Buffer.from(
         '--' + boundary + '\r\n' +
@@ -44,7 +41,6 @@ module.exports = async function handler(req, res) {
       );
       const footer = Buffer.from('\r\n--' + boundary + '--\r\n');
       const body = Buffer.concat([header, imgBytes, footer]);
-
       const response = await fetch('https://external.api.recraft.ai/v1/images/removeBackground', {
         method: 'POST',
         headers: {
@@ -54,16 +50,15 @@ module.exports = async function handler(req, res) {
         body: body
       });
       const text = await response.text();
-      console.log('RemoveBG status:', response.status);
+      console.log('RemoveBG status:', response.status, text.substring(0, 200));
       return res.status(200).send(text);
     }
 
-    // Action: crisp upscale an existing image URL
+    // Action: crisp upscale
     if (action === 'upscale') {
       const imgResp = await fetch(imageUrl);
       const imgBuffer = await imgResp.arrayBuffer();
       const imgBytes = Buffer.from(imgBuffer);
-
       const boundary = '----FormBoundary' + Math.random().toString(36).slice(2);
       const header = Buffer.from(
         '--' + boundary + '\r\n' +
@@ -72,7 +67,6 @@ module.exports = async function handler(req, res) {
       );
       const footer = Buffer.from('\r\n--' + boundary + '--\r\n');
       const body = Buffer.concat([header, imgBytes, footer]);
-
       const response = await fetch('https://external.api.recraft.ai/v1/images/crispUpscale', {
         method: 'POST',
         headers: {
@@ -82,7 +76,7 @@ module.exports = async function handler(req, res) {
         body: body
       });
       const text = await response.text();
-      console.log('Upscale status:', response.status);
+      console.log('Upscale status:', response.status, text.substring(0, 200));
       return res.status(200).send(text);
     }
 
