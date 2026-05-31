@@ -8,176 +8,202 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:#f5f4f0;min-height:100vh;padding:2rem 1rem;}
-.wrap{max-width:780px;margin:0 auto;}
+.wrap{max-width:900px;margin:0 auto;}
 h1{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#111;margin-bottom:4px;}
-.sub{color:#888;font-size:13px;margin-bottom:2rem;}
-.layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.sub{color:#888;font-size:13px;margin-bottom:1.5rem;}
+.placement-bar{background:#fff;border-radius:14px;border:0.5px solid #e0e0e0;padding:1.25rem;margin-bottom:20px;}
+.placement-label{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:10px;}
+.placement-hint{font-size:12px;color:#aaa;margin-bottom:10px;}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.pbtn{background:#f5f4f0;border:2px solid #e0e0e0;border-radius:12px;padding:14px 8px;font-size:13px;font-family:inherit;color:#666;cursor:pointer;text-align:center;transition:all 0.15s;position:relative;}
+.pbtn:hover{border-color:#999;color:#111;}
+.pbtn.on{background:#111;color:#fff;border-color:#111;}
+.pbtn .picon{font-size:28px;display:block;margin-bottom:6px;}
+.pbtn .psize{display:block;font-size:10px;opacity:0.6;margin-top:3px;}
+.pbtn .pcheck{position:absolute;top:8px;right:10px;font-size:14px;opacity:0;transition:opacity 0.15s;}
+.pbtn.on .pcheck{opacity:1;}
+.panels-wrap{display:flex;flex-direction:column;gap:16px;margin-bottom:20px;}
 .panel{background:#fff;border-radius:16px;border:0.5px solid #e0e0e0;padding:1.5rem;}
-.sec{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-bottom:1rem;}
-.field{margin-bottom:14px;}
-.field label{display:block;font-size:13px;color:#666;margin-bottom:5px;}
-.field input{width:100%;padding:9px 12px;border:1px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:14px;outline:none;}
+.panel.hidden{display:none;}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:#111;}
+.panel-spec{font-size:11px;color:#999;background:#f5f4f0;border-radius:6px;padding:3px 10px;}
+.panel-body{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.sec{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#999;margin-bottom:10px;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:12px;color:#666;margin-bottom:4px;}
+.field input{width:100%;padding:8px 12px;border:1px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:13px;outline:none;}
 .field input:focus{border-color:#999;}
-.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.sbtn{background:#f5f4f0;border:1px solid #e0e0e0;border-radius:8px;padding:8px 4px;font-size:12px;font-family:inherit;color:#666;cursor:pointer;text-align:center;transition:all 0.15s;}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+.sbtn{background:#f5f4f0;border:1px solid #e0e0e0;border-radius:7px;padding:7px 4px;font-size:11px;font-family:inherit;color:#666;cursor:pointer;text-align:center;transition:all 0.15s;}
 .sbtn:hover{border-color:#999;color:#111;}
 .sbtn.on{background:#111;color:#fff;border-color:#111;}
-.plist{display:flex;flex-direction:column;gap:5px;}
-.prow{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;border:1px solid #e0e0e0;cursor:pointer;background:#f9f9f9;transition:all 0.15s;}
+.plist{display:flex;flex-direction:column;gap:4px;}
+.prow{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;border:1px solid #e0e0e0;cursor:pointer;background:#f9f9f9;transition:all 0.15s;}
 .prow:hover{border-color:#999;}
 .prow.on{border-color:#111;background:#fff;}
 .prow.on .pk{opacity:1;}
-.pdots{display:flex;gap:4px;flex-shrink:0;}
-.dot{width:14px;height:14px;border-radius:50%;border:0.5px solid rgba(0,0,0,0.1);}
-.pname{font-size:13px;color:#111;flex:1;}
-.pk{opacity:0;color:#999;font-size:13px;}
-.tcinput{display:none;margin-top:8px;gap:6px;}
+.pdots{display:flex;gap:3px;flex-shrink:0;}
+.dot{width:13px;height:13px;border-radius:50%;border:0.5px solid rgba(0,0,0,0.1);}
+.pname{font-size:12px;color:#111;flex:1;}
+.pk{opacity:0;color:#111;font-size:11px;}
+.tcinput{display:none;margin-top:6px;gap:6px;}
 .tcinput.show{display:flex;}
-.tcinput input{flex:1;padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:12px;font-family:inherit;}
-.shgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
-.shbtn{padding:7px 4px;border-radius:8px;border:1px solid #e0e0e0;font-size:11px;font-family:inherit;cursor:pointer;color:#666;background:#f5f4f0;transition:all 0.15s;display:flex;align-items:center;gap:4px;}
+.tcinput input{flex:1;padding:7px 10px;border:1px solid #e0e0e0;border-radius:7px;font-size:12px;font-family:inherit;}
+.shgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;}
+.shbtn{padding:6px 3px;border-radius:7px;border:1px solid #e0e0e0;font-size:10px;font-family:inherit;cursor:pointer;color:#666;background:#f5f4f0;transition:all 0.15s;display:flex;align-items:center;gap:3px;}
 .shbtn.on{border-color:#111;color:#111;background:#fff;}
-.shsw{width:11px;height:11px;border-radius:50%;border:0.5px solid rgba(0,0,0,0.15);flex-shrink:0;}
-.gbtn{width:100%;padding:14px;background:#111;color:#fff;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;cursor:pointer;margin-top:10px;transition:opacity 0.15s;}
+.shsw{width:10px;height:10px;border-radius:50%;border:0.5px solid rgba(0,0,0,0.15);flex-shrink:0;}
+.gbtn{width:100%;padding:12px;background:#111;color:#fff;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;cursor:pointer;margin-top:10px;transition:opacity 0.15s;}
 .gbtn:hover{opacity:0.85;}
 .gbtn:disabled{opacity:0.4;cursor:not-allowed;}
-.prev{background:#f5f4f0;border-radius:14px;min-height:260px;display:flex;align-items:center;justify-content:center;border:1px solid #e0e0e0;margin-bottom:12px;overflow:hidden;}
-.prev img{width:100%;height:100%;object-fit:contain;border-radius:14px;}
-.prev-placeholder{text-align:center;color:#aaa;font-size:13px;}
-.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
-.vc{background:#f5f4f0;border:1px solid #e0e0e0;border-radius:10px;padding:7px;cursor:pointer;transition:all 0.15s;}
+.prev{background:#f5f4f0;border-radius:12px;min-height:200px;display:flex;align-items:center;justify-content:center;border:1px solid #e0e0e0;margin-bottom:8px;overflow:hidden;}
+.prev img{width:100%;height:100%;object-fit:contain;border-radius:12px;}
+.prev-placeholder{text-align:center;color:#bbb;font-size:12px;padding:1rem;}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:8px;}
+.vc{background:#f5f4f0;border:1px solid #e0e0e0;border-radius:7px;padding:5px;cursor:pointer;transition:all 0.15s;}
 .vc:hover{border-color:#999;}
 .vc.on{border-color:#111;border-width:1.5px;}
-.vc img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:6px;display:block;margin-bottom:5px;}
-.vph{width:100%;aspect-ratio:1;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:5px;color:#aaa;font-size:11px;}
-.vlb{font-size:10px;color:#888;text-align:center;}
-.stat{font-size:12px;color:#888;text-align:center;min-height:20px;margin-bottom:8px;}
-.obtn{width:100%;padding:12px;background:#fff;border:1px solid #ccc;border-radius:10px;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;color:#111;transition:all 0.15s;margin-bottom:8px;}
-.obtn:hover{background:#f5f4f0;}
-.obtn:disabled{opacity:0.4;cursor:not-allowed;}
-.download-section{display:none;margin-bottom:8px;}
-.download-section.show{display:block;}
-.download-title{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:#999;margin-bottom:8px;text-align:center;}
-.dbgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.dbtn{padding:10px 6px;background:#f5f4f0;border:1px solid #e0e0e0;border-radius:8px;font-family:inherit;font-size:11px;font-weight:500;cursor:pointer;color:#111;transition:all 0.15s;text-align:center;line-height:1.4;}
-.dbtn:hover{border-color:#111;background:#fff;}
-.dbtn:disabled{opacity:0.4;cursor:not-allowed;}
-.dbtn span{display:block;font-size:10px;color:#888;font-weight:400;margin-top:2px;}
-.pw{font-size:11px;color:#bbb;text-align:center;margin-top:10px;}
-.blink span{animation:bl 1.2s infinite;}
-.blink span:nth-child(2){animation-delay:0.2s;}
-.blink span:nth-child(3){animation-delay:0.4s;}
-@keyframes bl{0%,100%{opacity:0.2}50%{opacity:1}}
-@media(max-width:560px){.layout{grid-template-columns:1fr;}}
+.vc img{width:100%;aspect-ratio:1;object-fit:contain;border-radius:4px;display:block;margin-bottom:3px;}
+.vph{width:100%;aspect-ratio:1;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:3px;color:#bbb;font-size:10px;}
+.vlb{font-size:9px;color:#999;text-align:center;}
+.stat{font-size:11px;color:#888;text-align:center;min-height:16px;margin-bottom:6px;}
+.ditem{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f5f4f0;border:1px solid #e0e0e0;border-radius:9px;margin-bottom:6px;}
+.ditem-info{flex:1;}
+.ditem-name{font-size:12px;font-weight:500;color:#111;}
+.ditem-spec{font-size:10px;color:#888;margin-top:1px;}
+.ditem-btn{padding:6px 12px;background:#111;color:#fff;border:none;border-radius:7px;font-family:inherit;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;}
+.ditem-btn:hover{opacity:0.8;}
+.ditem-btn:disabled{opacity:0.4;cursor:not-allowed;}
+.order-bar{background:#fff;border-radius:14px;border:0.5px solid #e0e0e0;padding:1.25rem;text-align:center;}
+.obtn{padding:14px 40px;background:#111;color:#fff;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;cursor:pointer;transition:opacity 0.15s;}
+.obtn:hover{opacity:0.85;}
+.pw{font-size:11px;color:#bbb;margin-top:10px;}
+@media(max-width:600px){.panel-body{grid-template-columns:1fr;}.pgrid{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Design Your Shirt</h1>
-  <p class="sub">Describe it · Generate it · Print it with Clubflyers</p>
-  <div class="layout">
-    <div class="panel">
-      <div class="sec">Your Design</div>
-      <div class="field"><label>Main text</label><input id="mt" placeholder="e.g. FAMILY REUNION 2025" maxlength="30"/></div>
-      <div class="field"><label>Secondary text</label><input id="st" placeholder="e.g. The Johnson Family" maxlength="40"/></div>
-      <div class="field"><label>Icons / elements</label><input id="ic" placeholder="e.g. palm trees, stars, basketball"/></div>
-      <div class="field">
-        <label>Style</label>
-        <div class="sgrid" id="SG">
-          <button class="sbtn on" data-s="Bold">Bold</button>
-          <button class="sbtn" data-s="Graffiti">Graffiti</button>
-          <button class="sbtn" data-s="Vintage">Vintage</button>
-          <button class="sbtn" data-s="Minimal">Minimal</button>
-          <button class="sbtn" data-s="Retro">Retro</button>
-          <button class="sbtn" data-s="Athletic">Athletic</button>
-        </div>
-      </div>
-      <div class="field">
-        <label>Color palette</label>
-        <div class="plist" id="PL">
-          <div class="prow on" data-p="Bold & vibrant" data-d="bold red, electric blue, and gold colors">
-            <div class="pdots"><div class="dot" style="background:#E02020"></div><div class="dot" style="background:#0066FF"></div><div class="dot" style="background:#F5C518"></div></div>
-            <span class="pname">Bold &amp; vibrant</span><span class="pk">✓</span>
-          </div>
-          <div class="prow" data-p="Bright neon" data-d="hot pink, electric cyan, and neon lime colors">
-            <div class="pdots"><div class="dot" style="background:#FF2D78"></div><div class="dot" style="background:#00CFFF"></div><div class="dot" style="background:#BFFF00"></div></div>
-            <span class="pname">Bright neon</span><span class="pk">✓</span>
-          </div>
-          <div class="prow" data-p="Earth & natural" data-d="warm brown, olive green, and tan colors">
-            <div class="pdots"><div class="dot" style="background:#A0522D"></div><div class="dot" style="background:#6B7C3A"></div><div class="dot" style="background:#C8A96E"></div></div>
-            <span class="pname">Earth &amp; natural</span><span class="pk">✓</span>
-          </div>
-          <div class="prow" data-p="Pastel" data-d="soft pink, baby blue, and mint green colors">
-            <div class="pdots"><div class="dot" style="background:#F9A8C9"></div><div class="dot" style="background:#A8C8F9"></div><div class="dot" style="background:#A8F9C8"></div></div>
-            <span class="pname">Pastel</span><span class="pk">✓</span>
-          </div>
-          <div class="prow" data-p="Dark & moody" data-d="deep navy, dark purple, and dark crimson colors">
-            <div class="pdots"><div class="dot" style="background:#1A1A2E"></div><div class="dot" style="background:#4A0E8F"></div><div class="dot" style="background:#8B0000"></div></div>
-            <span class="pname">Dark &amp; moody</span><span class="pk">✓</span>
-          </div>
-          <div class="prow" data-p="Team colors" data-d="custom team colors" id="TR">
-            <div class="pdots"><div class="dot" style="background:#003087"></div><div class="dot" style="background:#FFD700"></div><div class="dot" style="background:#fff;border-color:#ccc"></div></div>
-            <span class="pname">School / team colors</span><span class="pk">✓</span>
-          </div>
-        </div>
-        <div class="tcinput" id="TC">
-          <input id="tc1" placeholder="Color 1 (e.g. navy)"/>
-          <input id="tc2" placeholder="Color 2 (e.g. gold)"/>
-        </div>
-      </div>
-      <div class="field">
-        <label>Shirt color</label>
-        <div class="shgrid" id="SH">
-          <button class="shbtn on" data-sh="black"><span class="shsw" style="background:#111"></span>Black</button>
-          <button class="shbtn" data-sh="white"><span class="shsw" style="background:#F5F5F5;border-color:#aaa"></span>White</button>
-          <button class="shbtn" data-sh="navy"><span class="shsw" style="background:#1B2A4A"></span>Navy</button>
-          <button class="shbtn" data-sh="grey"><span class="shsw" style="background:#888"></span>Grey</button>
-          <button class="shbtn" data-sh="red"><span class="shsw" style="background:#C0001A"></span>Red</button>
-          <button class="shbtn" data-sh="royal blue"><span class="shsw" style="background:#1A3A9E"></span>Royal</button>
-          <button class="shbtn" data-sh="forest green"><span class="shsw" style="background:#1A4731"></span>Forest</button>
-          <button class="shbtn" data-sh="maroon"><span class="shsw" style="background:#5B0020"></span>Maroon</button>
-        </div>
-      </div>
-      <button class="gbtn" id="GB" onclick="go()">Generate Designs</button>
-    </div>
-
-    <div class="panel">
-      <div class="sec">Preview</div>
-      <div class="prev" id="PV">
-        <div class="prev-placeholder">
-          <div style="font-size:48px;opacity:0.2;margin-bottom:8px;">👕</div>
-          Fill in details and click Generate
-        </div>
-      </div>
-      <div class="stat" id="ST"></div>
-      <div class="vgrid" id="VG" style="display:none;"></div>
-
-      <div class="download-section" id="DS">
-        <div class="download-title">⬇ Download Print-Ready File</div>
-        <div class="dbgrid">
-          <button class="dbtn" id="D1" onclick="downloadFile('1024x1024','left-chest')" disabled>
-            Left Chest<span>4" × 4" · 300 DPI</span>
-          </button>
-          <button class="dbtn" id="D2" onclick="downloadFile('1024x1024','front-chest')" disabled>
-            Front Chest<span>12" × 12" · 300 DPI</span>
-          </button>
-          <button class="dbtn" id="D3" onclick="downloadFile('1024x1365','full-front')" disabled>
-            Full Front<span>12" × 16" · 300 DPI</span>
-          </button>
-        </div>
-      </div>
-
-      <button class="obtn" id="OB" disabled onclick="order()">🛒 Order with Clubflyers</button>
-      <div class="pw">Real AI designs by Recraft · Printed by Clubflyers</div>
-    </div>
-  </div>
+<h1>Design Your Shirt</h1>
+<p class="sub">Describe it · Generate it · Print it with Clubflyers</p>
+<div class="placement-bar">
+<div class="placement-label">Select Print Placement</div>
+<div class="placement-hint">Choose one or more — each gets its own design</div>
+<div class="pgrid">
+<button class="pbtn" data-pl="front" onclick="togglePlacement('front')"><span class="pcheck">✓</span><span class="picon">👕</span>Large Front<span class="psize">12" × 12"</span></button>
+<button class="pbtn" data-pl="back" onclick="togglePlacement('back')"><span class="pcheck">✓</span><span class="picon">👕</span>Large Back<span class="psize">12" × 12"</span></button>
+<button class="pbtn" data-pl="pocket" onclick="togglePlacement('pocket')"><span class="pcheck">✓</span><span class="picon">📌</span>Pocket<span class="psize">4" × 4"</span></button>
 </div>
-
-<script>
+</div>
+<div class="panels-wrap" id="PanelsWrap"><div class="panel hidden" id="panel-front">
+<div class="panel-header"><div class="panel-title">Large Front Design</div><div class="panel-spec">12" × 12" · 300 DPI · PNG</div></div>
+<div class="panel-body">
+<div class="col">
+<div class="sec">Design Details</div>
+<div class="field"><label>Main text</label><input id="front-mt" placeholder="e.g. FAMILY REUNION 2025" maxlength="30"/></div>
+<div class="field"><label>Secondary text</label><input id="front-st" placeholder="e.g. The Johnson Family" maxlength="40"/></div>
+<div class="field"><label>Icons / elements</label><input id="front-ic" placeholder="e.g. palm trees, stars"/></div>
+<div class="field"><label>Style</label><div class="sgrid" data-grid="front-style"><button class="sbtn on" data-s="Bold">Bold</button><button class="sbtn" data-s="Graffiti">Graffiti</button><button class="sbtn" data-s="Vintage">Vintage</button><button class="sbtn" data-s="Minimal">Minimal</button><button class="sbtn" data-s="Retro">Retro</button><button class="sbtn" data-s="Athletic">Athletic</button></div></div>
+<div class="field"><label>Color palette</label>
+<div class="plist" data-list="front-palette">
+<div class="prow on" data-p="Bold & vibrant" data-d="bold red, electric blue, and gold colors"><div class="pdots"><div class="dot" style="background:#E02020"></div><div class="dot" style="background:#0066FF"></div><div class="dot" style="background:#F5C518"></div></div><span class="pname">Bold &amp; vibrant</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Bright neon" data-d="hot pink, electric cyan, and neon lime colors"><div class="pdots"><div class="dot" style="background:#FF2D78"></div><div class="dot" style="background:#00CFFF"></div><div class="dot" style="background:#BFFF00"></div></div><span class="pname">Bright neon</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Earth & natural" data-d="warm brown, olive green, and tan colors"><div class="pdots"><div class="dot" style="background:#A0522D"></div><div class="dot" style="background:#6B7C3A"></div><div class="dot" style="background:#C8A96E"></div></div><span class="pname">Earth &amp; natural</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Pastel" data-d="soft pink, baby blue, and mint green colors"><div class="pdots"><div class="dot" style="background:#F9A8C9"></div><div class="dot" style="background:#A8C8F9"></div><div class="dot" style="background:#A8F9C8"></div></div><span class="pname">Pastel</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Dark & moody" data-d="deep navy, dark purple, and dark crimson colors"><div class="pdots"><div class="dot" style="background:#1A1A2E"></div><div class="dot" style="background:#4A0E8F"></div><div class="dot" style="background:#8B0000"></div></div><span class="pname">Dark &amp; moody</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Team colors" data-d="custom team colors" data-team="front"><div class="pdots"><div class="dot" style="background:#003087"></div><div class="dot" style="background:#FFD700"></div><div class="dot" style="background:#fff;border-color:#ccc"></div></div><span class="pname">School / team colors</span><span class="pk">✓</span></div>
+</div>
+<div class="tcinput" id="front-tc"><input id="front-tc1" placeholder="Color 1"/><input id="front-tc2" placeholder="Color 2"/></div>
+</div>
+<div class="field"><label>Shirt color</label><div class="shgrid" data-grid="front-shirt"><button class="shbtn on" data-sh="black"><span class="shsw" style="background:#111"></span>Black</button><button class="shbtn" data-sh="white"><span class="shsw" style="background:#F5F5F5;border-color:#aaa"></span>White</button><button class="shbtn" data-sh="navy"><span class="shsw" style="background:#1B2A4A"></span>Navy</button><button class="shbtn" data-sh="grey"><span class="shsw" style="background:#888"></span>Grey</button><button class="shbtn" data-sh="red"><span class="shsw" style="background:#C0001A"></span>Red</button><button class="shbtn" data-sh="royal blue"><span class="shsw" style="background:#1A3A9E"></span>Royal</button><button class="shbtn" data-sh="forest green"><span class="shsw" style="background:#1A4731"></span>Forest</button><button class="shbtn" data-sh="maroon"><span class="shsw" style="background:#5B0020"></span>Maroon</button></div></div>
+<button class="gbtn" id="gbtn-front" onclick="generate('front')">Generate Front Design</button>
+</div>
+<div class="col">
+<div class="sec">Preview</div>
+<div class="prev" id="prev-front"><div class="prev-placeholder">👕<br>Click Generate</div></div>
+<div class="stat" id="stat-front"></div>
+<div class="vgrid" id="vgrid-front" style="display:none;"></div>
+<div id="dload-front"></div>
+</div>
+</div>
+</div><div class="panel hidden" id="panel-back">
+<div class="panel-header"><div class="panel-title">Large Back Design</div><div class="panel-spec">12" × 12" · 300 DPI · PNG</div></div>
+<div class="panel-body">
+<div class="col">
+<div class="sec">Design Details</div>
+<div class="field"><label>Main text</label><input id="back-mt" placeholder="e.g. Class of 2026" maxlength="30"/></div>
+<div class="field"><label>Secondary text</label><input id="back-st" placeholder="e.g. Names, location, quote" maxlength="40"/></div>
+<div class="field"><label>Icons / elements</label><input id="back-ic" placeholder="e.g. flames, shield, laurel"/></div>
+<div class="field"><label>Style</label><div class="sgrid" data-grid="back-style"><button class="sbtn on" data-s="Bold">Bold</button><button class="sbtn" data-s="Graffiti">Graffiti</button><button class="sbtn" data-s="Vintage">Vintage</button><button class="sbtn" data-s="Minimal">Minimal</button><button class="sbtn" data-s="Retro">Retro</button><button class="sbtn" data-s="Athletic">Athletic</button></div></div>
+<div class="field"><label>Color palette</label>
+<div class="plist" data-list="back-palette">
+<div class="prow on" data-p="Bold & vibrant" data-d="bold red, electric blue, and gold colors"><div class="pdots"><div class="dot" style="background:#E02020"></div><div class="dot" style="background:#0066FF"></div><div class="dot" style="background:#F5C518"></div></div><span class="pname">Bold &amp; vibrant</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Bright neon" data-d="hot pink, electric cyan, and neon lime colors"><div class="pdots"><div class="dot" style="background:#FF2D78"></div><div class="dot" style="background:#00CFFF"></div><div class="dot" style="background:#BFFF00"></div></div><span class="pname">Bright neon</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Earth & natural" data-d="warm brown, olive green, and tan colors"><div class="pdots"><div class="dot" style="background:#A0522D"></div><div class="dot" style="background:#6B7C3A"></div><div class="dot" style="background:#C8A96E"></div></div><span class="pname">Earth &amp; natural</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Pastel" data-d="soft pink, baby blue, and mint green colors"><div class="pdots"><div class="dot" style="background:#F9A8C9"></div><div class="dot" style="background:#A8C8F9"></div><div class="dot" style="background:#A8F9C8"></div></div><span class="pname">Pastel</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Dark & moody" data-d="deep navy, dark purple, and dark crimson colors"><div class="pdots"><div class="dot" style="background:#1A1A2E"></div><div class="dot" style="background:#4A0E8F"></div><div class="dot" style="background:#8B0000"></div></div><span class="pname">Dark &amp; moody</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Team colors" data-d="custom team colors" data-team="back"><div class="pdots"><div class="dot" style="background:#003087"></div><div class="dot" style="background:#FFD700"></div><div class="dot" style="background:#fff;border-color:#ccc"></div></div><span class="pname">School / team colors</span><span class="pk">✓</span></div>
+</div>
+<div class="tcinput" id="back-tc"><input id="back-tc1" placeholder="Color 1"/><input id="back-tc2" placeholder="Color 2"/></div>
+</div>
+<div class="field"><label>Shirt color</label><div class="shgrid" data-grid="back-shirt"><button class="shbtn on" data-sh="black"><span class="shsw" style="background:#111"></span>Black</button><button class="shbtn" data-sh="white"><span class="shsw" style="background:#F5F5F5;border-color:#aaa"></span>White</button><button class="shbtn" data-sh="navy"><span class="shsw" style="background:#1B2A4A"></span>Navy</button><button class="shbtn" data-sh="grey"><span class="shsw" style="background:#888"></span>Grey</button><button class="shbtn" data-sh="red"><span class="shsw" style="background:#C0001A"></span>Red</button><button class="shbtn" data-sh="royal blue"><span class="shsw" style="background:#1A3A9E"></span>Royal</button><button class="shbtn" data-sh="forest green"><span class="shsw" style="background:#1A4731"></span>Forest</button><button class="shbtn" data-sh="maroon"><span class="shsw" style="background:#5B0020"></span>Maroon</button></div></div>
+<button class="gbtn" id="gbtn-back" onclick="generate('back')">Generate Back Design</button>
+</div>
+<div class="col">
+<div class="sec">Preview</div>
+<div class="prev" id="prev-back"><div class="prev-placeholder">👕<br>Click Generate</div></div>
+<div class="stat" id="stat-back"></div>
+<div class="vgrid" id="vgrid-back" style="display:none;"></div>
+<div id="dload-back"></div>
+</div>
+</div>
+</div><div class="panel hidden" id="panel-pocket">
+<div class="panel-header"><div class="panel-title">Pocket / Left Chest Design</div><div class="panel-spec">4" × 4" · 300 DPI · PNG</div></div>
+<div class="panel-body">
+<div class="col">
+<div class="sec">Design Details</div>
+<div class="field"><label>Main text</label><input id="pocket-mt" placeholder="e.g. Logo, initials, icon" maxlength="30"/></div>
+<div class="field"><label>Secondary text</label><input id="pocket-st" placeholder="e.g. Est. 2026" maxlength="40"/></div>
+<div class="field"><label>Icons / elements</label><input id="pocket-ic" placeholder="e.g. star, shield, crown"/></div>
+<div class="field"><label>Style</label><div class="sgrid" data-grid="pocket-style"><button class="sbtn on" data-s="Bold">Bold</button><button class="sbtn" data-s="Graffiti">Graffiti</button><button class="sbtn" data-s="Vintage">Vintage</button><button class="sbtn" data-s="Minimal">Minimal</button><button class="sbtn" data-s="Retro">Retro</button><button class="sbtn" data-s="Athletic">Athletic</button></div></div>
+<div class="field"><label>Color palette</label>
+<div class="plist" data-list="pocket-palette">
+<div class="prow on" data-p="Bold & vibrant" data-d="bold red, electric blue, and gold colors"><div class="pdots"><div class="dot" style="background:#E02020"></div><div class="dot" style="background:#0066FF"></div><div class="dot" style="background:#F5C518"></div></div><span class="pname">Bold &amp; vibrant</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Bright neon" data-d="hot pink, electric cyan, and neon lime colors"><div class="pdots"><div class="dot" style="background:#FF2D78"></div><div class="dot" style="background:#00CFFF"></div><div class="dot" style="background:#BFFF00"></div></div><span class="pname">Bright neon</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Earth & natural" data-d="warm brown, olive green, and tan colors"><div class="pdots"><div class="dot" style="background:#A0522D"></div><div class="dot" style="background:#6B7C3A"></div><div class="dot" style="background:#C8A96E"></div></div><span class="pname">Earth &amp; natural</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Pastel" data-d="soft pink, baby blue, and mint green colors"><div class="pdots"><div class="dot" style="background:#F9A8C9"></div><div class="dot" style="background:#A8C8F9"></div><div class="dot" style="background:#A8F9C8"></div></div><span class="pname">Pastel</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Dark & moody" data-d="deep navy, dark purple, and dark crimson colors"><div class="pdots"><div class="dot" style="background:#1A1A2E"></div><div class="dot" style="background:#4A0E8F"></div><div class="dot" style="background:#8B0000"></div></div><span class="pname">Dark &amp; moody</span><span class="pk">✓</span></div>
+<div class="prow" data-p="Team colors" data-d="custom team colors" data-team="pocket"><div class="pdots"><div class="dot" style="background:#003087"></div><div class="dot" style="background:#FFD700"></div><div class="dot" style="background:#fff;border-color:#ccc"></div></div><span class="pname">School / team colors</span><span class="pk">✓</span></div>
+</div>
+<div class="tcinput" id="pocket-tc"><input id="pocket-tc1" placeholder="Color 1"/><input id="pocket-tc2" placeholder="Color 2"/></div>
+</div>
+<div class="field"><label>Shirt color</label><div class="shgrid" data-grid="pocket-shirt"><button class="shbtn on" data-sh="black"><span class="shsw" style="background:#111"></span>Black</button><button class="shbtn" data-sh="white"><span class="shsw" style="background:#F5F5F5;border-color:#aaa"></span>White</button><button class="shbtn" data-sh="navy"><span class="shsw" style="background:#1B2A4A"></span>Navy</button><button class="shbtn" data-sh="grey"><span class="shsw" style="background:#888"></span>Grey</button><button class="shbtn" data-sh="red"><span class="shsw" style="background:#C0001A"></span>Red</button><button class="shbtn" data-sh="royal blue"><span class="shsw" style="background:#1A3A9E"></span>Royal</button><button class="shbtn" data-sh="forest green"><span class="shsw" style="background:#1A4731"></span>Forest</button><button class="shbtn" data-sh="maroon"><span class="shsw" style="background:#5B0020"></span>Maroon</button></div></div>
+<button class="gbtn" id="gbtn-pocket" onclick="generate('pocket')">Generate Pocket Design</button>
+</div>
+<div class="col">
+<div class="sec">Preview</div>
+<div class="prev" id="prev-pocket"><div class="prev-placeholder">📌<br>Click Generate</div></div>
+<div class="stat" id="stat-pocket"></div>
+<div class="vgrid" id="vgrid-pocket" style="display:none;"></div>
+<div id="dload-pocket"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="order-bar" id="OrderBar" style="display:none;">
+<button class="obtn" onclick="order()">🛒 Submit Order to Clubflyers</button>
+<div class="pw">Real AI designs by Recraft · Printed by Clubflyers</div>
+</div>
+</div><script>
 const API = '/api/generate';
-let style='Bold', palette='Bold & vibrant', palDesc='bold red, electric blue, and gold colors', shirt='black';
-let imgs=[null,null,null], selV=0, busy=false, lastPrompt='';
-
+const selected = new Set();
+const state = {
+  front:  {style:'Bold',palette:'Bold & vibrant',palDesc:'bold red, electric blue, and gold colors',shirt:'black',imgs:[null,null,null],selV:0,lastPrompt:'',busy:false},
+  back:   {style:'Bold',palette:'Bold & vibrant',palDesc:'bold red, electric blue, and gold colors',shirt:'black',imgs:[null,null,null],selV:0,lastPrompt:'',busy:false},
+  pocket: {style:'Bold',palette:'Bold & vibrant',palDesc:'bold red, electric blue, and gold colors',shirt:'black',imgs:[null,null,null],selV:0,lastPrompt:'',busy:false},
+};
+const sizes = {front:'1024x1024',back:'1024x1024',pocket:'1024x1024'};
+const specs = {front:'12"×12"',back:'12"×12"',pocket:'4"×4"'};
 const SP = {
   Bold:'bold powerful block lettering, strong high contrast graphic design, professional apparel print',
   Graffiti:'urban graffiti street art style, spray paint lettering, colorful street culture mural, wild style',
@@ -186,164 +212,183 @@ const SP = {
   Retro:'retro 1980s synthwave style, neon outlines, chrome text, geometric shapes, vibrant pop',
   Athletic:'bold varsity athletic style, collegiate sports jersey lettering, dynamic energetic graphic'
 };
-
 const layouts = [
   'centered stacked text layout with decorative divider lines',
   'arched headline over a central graphic element with tagline below',
   'circular badge or crest composition with text and decorative border'
 ];
 
-document.getElementById('SG').onclick = e => {
-  if(!e.target.dataset.s) return;
-  document.querySelectorAll('.sbtn').forEach(b=>b.classList.remove('on'));
-  e.target.classList.add('on');
-  style = e.target.dataset.s;
-};
-document.getElementById('PL').onclick = e => {
-  const r = e.target.closest('.prow');
-  if(!r) return;
-  document.querySelectorAll('.prow').forEach(p=>p.classList.remove('on'));
-  r.classList.add('on');
-  palette = r.dataset.p;
-  palDesc = r.dataset.d;
-  document.getElementById('TC').classList.toggle('show', r.id==='TR');
-};
-document.getElementById('SH').onclick = e => {
-  const b = e.target.closest('[data-sh]');
-  if(!b) return;
-  document.querySelectorAll('.shbtn').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');
-  shirt = b.dataset.sh;
-};
+function togglePlacement(pl) {
+  if(selected.has(pl)) {
+    selected.delete(pl);
+    document.querySelector('[data-pl="'+pl+'"]').classList.remove('on');
+    document.getElementById('panel-'+pl).classList.add('hidden');
+  } else {
+    selected.add(pl);
+    document.querySelector('[data-pl="'+pl+'"]').classList.add('on');
+    document.getElementById('panel-'+pl).classList.remove('hidden');
+  }
+  document.getElementById('OrderBar').style.display = selected.size > 0 ? 'block' : 'none';
+}
 
-function buildPrompt(mainT, subT, icons, vi) {
-  const t1=document.getElementById('tc1').value.trim();
-  const t2=document.getElementById('tc2').value.trim();
-  const col=(palette==='Team colors'&&t1)?`${t1}${t2?' and '+t2:''} colors`:palDesc;
-  const sub=subT?`, secondary text says "${subT}"`:'';
-  const ico=icons?`, incorporating ${icons} as graphic elements`:'';
-  return `Professional t-shirt graphic design on a ${shirt} shirt. Main text says "${mainT}"${sub}${ico}. Style: ${SP[style]}. Color scheme: ${col}. Layout: ${layouts[vi]}. Flat vector illustration, screen-print ready, high contrast, no background, clean edges, centered composition.`;
+document.querySelectorAll('[data-grid$="-style"]').forEach(function(grid) {
+  var pl = grid.dataset.grid.replace('-style','');
+  grid.onclick = function(e) {
+    if(!e.target.dataset.s) return;
+    grid.querySelectorAll('.sbtn').forEach(function(b){b.classList.remove('on');});
+    e.target.classList.add('on');
+    state[pl].style = e.target.dataset.s;
+  };
+});
+
+document.querySelectorAll('[data-list$="-palette"]').forEach(function(list) {
+  var pl = list.dataset.list.replace('-palette','');
+  list.onclick = function(e) {
+    var r = e.target.closest('.prow');
+    if(!r) return;
+    list.querySelectorAll('.prow').forEach(function(p){p.classList.remove('on');});
+    r.classList.add('on');
+    state[pl].palette = r.dataset.p;
+    state[pl].palDesc = r.dataset.d;
+    var tc = document.getElementById(pl+'-tc');
+    if(tc) tc.classList.toggle('show', r.dataset.team === pl);
+  };
+});
+
+document.querySelectorAll('[data-grid$="-shirt"]').forEach(function(grid) {
+  var pl = grid.dataset.grid.replace('-shirt','');
+  grid.onclick = function(e) {
+    var b = e.target.closest('[data-sh]');
+    if(!b) return;
+    grid.querySelectorAll('.shbtn').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    state[pl].shirt = b.dataset.sh;
+  };
+});
+
+function buildPrompt(pl, vi) {
+  var s = state[pl];
+  var mt = document.getElementById(pl+'-mt').value.trim();
+  var st = document.getElementById(pl+'-st').value.trim();
+  var ic = document.getElementById(pl+'-ic').value.trim();
+  var tc1 = document.getElementById(pl+'-tc1').value.trim();
+  var tc2 = document.getElementById(pl+'-tc2').value.trim();
+  var col = (s.palette==='Team colors'&&tc1) ? tc1+(tc2?' and '+tc2:'')+' colors' : s.palDesc;
+  var sub = st ? ', secondary text says "'+st+'"' : '';
+  var ico = ic ? ', incorporating '+ic+' as graphic elements' : '';
+  var side = pl==='back' ? 'back of shirt' : pl==='pocket' ? 'left chest pocket area' : 'front of shirt';
+  return 'Professional t-shirt graphic design for the '+side+', on a '+s.shirt+' shirt. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. Flat vector illustration, screen-print ready, high contrast, transparent background, clean edges, centered composition.';
 }
 
 async function callAPI(prompt, size, download) {
-  const resp = await fetch(API, {
+  var resp = await fetch(API, {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      prompt,
-      style:'digital_illustration',
-      model:'recraftv3',
-      size: size || '1024x1024',
-      download: download || false
+      prompt: download ? prompt+', isolated graphic artwork only, no shirt mockup, transparent background, print-ready file' : prompt,
+      style:'digital_illustration', model:'recraftv3',
+      size: size||'1024x1024', download: download||false
     })
   });
-  const text = await resp.text();
-  const outer = JSON.parse(text);
-  const inner = typeof outer.raw==='string' ? JSON.parse(outer.raw) : outer;
+  var text = await resp.text();
+  var outer = JSON.parse(text);
+  var inner = typeof outer.raw==='string' ? JSON.parse(outer.raw) : outer;
   if(!inner.data||!inner.data[0]||!inner.data[0].url) throw new Error(JSON.stringify(inner));
   return inner.data[0].url;
 }
 
-async function go() {
-  const mt=document.getElementById('mt').value.trim();
-  if(!mt){document.getElementById('mt').focus();return;}
-  if(busy) return;
-  busy=true;
-
-  const btn=document.getElementById('GB');
-  btn.disabled=true;
-  btn.textContent='Generating...';
-  document.getElementById('ST').textContent='Sending to Recraft AI...';
-  document.getElementById('VG').style.display='none';
-  document.getElementById('OB').disabled=true;
-  document.getElementById('DS').classList.remove('show');
-  ['D1','D2','D3'].forEach(id=>document.getElementById(id).disabled=true);
-  document.getElementById('PV').innerHTML='<div class="prev-placeholder"><div style="font-size:32px;margin-bottom:8px;">⏳</div>Creating your designs...<br><span style="font-size:11px;opacity:0.6;">15–25 sec per variation</span></div>';
-
-  const sub=document.getElementById('st').value.trim();
-  const ic=document.getElementById('ic').value.trim();
-  imgs=[null,null,null];
-  lastPrompt = buildPrompt(mt, sub, ic, 0);
-
-  const vg=document.getElementById('VG');
-  vg.style.display='grid';
-  vg.innerHTML=[0,1,2].map(i=>`<div class="vc ${i===0?'on':''}" id="vc${i}" onclick="pick(${i})"><div class="vph" id="vp${i}">...</div><div class="vlb" id="vl${i}">Generating...</div></div>`).join('');
-
-  let first=false;
-  const lbs=['Centered','Arch','Badge'];
-
-  await Promise.allSettled([0,1,2].map(async i=>{
+async function generate(pl) {
+  var s = state[pl];
+  var mt = document.getElementById(pl+'-mt').value.trim();
+  if(!mt){document.getElementById(pl+'-mt').focus();return;}
+  if(s.busy) return;
+  s.busy = true;
+  var btn = document.getElementById('gbtn-'+pl);
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+  document.getElementById('stat-'+pl).textContent = 'Sending to Recraft AI...';
+  document.getElementById('vgrid-'+pl).style.display = 'none';
+  document.getElementById('dload-'+pl).innerHTML = '';
+  document.getElementById('prev-'+pl).innerHTML = '<div class="prev-placeholder">⏳<br>Creating designs...<br><span style="font-size:10px;opacity:0.6;">15-25 sec per variation</span></div>';
+  s.imgs = [null,null,null];
+  s.lastPrompt = buildPrompt(pl, 0);
+  var vg = document.getElementById('vgrid-'+pl);
+  vg.style.display = 'grid';
+  vg.innerHTML = [0,1,2].map(function(i){return '<div class="vc '+(i===0?'on':'')+'" id="vc-'+pl+'-'+i+'" onclick="pick(\''+pl+'\','+i+')"><div class="vph" id="vp-'+pl+'-'+i+'">...</div><div class="vlb" id="vl-'+pl+'-'+i+'">...</div></div>';}).join('');
+  var lbs = ['Centered','Arch','Badge'];
+  var first = false;
+  await Promise.allSettled([0,1,2].map(async function(i) {
     try {
-      const url=await callAPI(buildPrompt(mt,sub,ic,i));
-      imgs[i]=url;
-      const vp=document.getElementById(`vp${i}`);
-      if(vp) vp.outerHTML=`<img src="${url}" alt="v${i+1}"/>`;
-      const vl=document.getElementById(`vl${i}`);
-      if(vl) vl.textContent=lbs[i];
-      if(!first&&url){
-        first=true; selV=i;
-        lastPrompt=buildPrompt(mt,sub,ic,i);
-        document.getElementById('PV').innerHTML=`<img src="${url}" alt="preview"/>`;
-        document.getElementById('ST').textContent='First design ready — more coming...';
+      var prompt = buildPrompt(pl, i);
+      var url = await callAPI(prompt, sizes[pl]);
+      s.imgs[i] = url;
+      var vp = document.getElementById('vp-'+pl+'-'+i);
+      if(vp) vp.outerHTML = '<img src="'+url+'" alt="v'+(i+1)+'"/>';
+      var vl = document.getElementById('vl-'+pl+'-'+i);
+      if(vl) vl.textContent = lbs[i];
+      if(!first && url) {
+        first = true; s.selV = i; s.lastPrompt = prompt;
+        document.getElementById('prev-'+pl).innerHTML = '<img src="'+url+'" alt="preview"/>';
+        document.getElementById('stat-'+pl).textContent = 'First design ready...';
       }
-    } catch(e){
-      const vp=document.getElementById(`vp${i}`);
-      if(vp) vp.textContent='Failed';
+    } catch(e) {
+      var vp = document.getElementById('vp-'+pl+'-'+i);
+      if(vp) vp.textContent = 'Failed';
     }
   }));
-
-  const ok=imgs.filter(Boolean).length;
-  document.getElementById('ST').textContent=ok>0?`${ok} variation${ok>1?'s':''} ready — pick your favorite`:'Generation failed. Try again.';
-  if(ok>0){
-    document.getElementById('OB').disabled=false;
-    document.getElementById('DS').classList.add('show');
-    ['D1','D2','D3'].forEach(id=>document.getElementById(id).disabled=false);
+  var ok = s.imgs.filter(Boolean).length;
+  if(ok > 0) {
+    document.getElementById('stat-'+pl).textContent = ok+' variation'+(ok>1?'s':'')+' ready — pick your favorite';
+    showDownload(pl);
+  } else {
+    document.getElementById('stat-'+pl).textContent = 'Generation failed. Try again.';
   }
-  btn.disabled=false;
-  btn.textContent='Regenerate';
-  busy=false;
+  btn.disabled = false;
+  btn.textContent = 'Regenerate '+pl.charAt(0).toUpperCase()+pl.slice(1);
+  s.busy = false;
 }
 
-function pick(i){
-  if(!imgs[i]) return;
-  selV=i;
-  document.getElementById('PV').innerHTML=`<img src="${imgs[i]}" alt="preview"/>`;
-  document.querySelectorAll('.vc').forEach((c,j)=>c.classList.toggle('on',j===i));
+function showDownload(pl) {
+  var label = pl==='front'?'Large Front':pl==='back'?'Large Back':'Pocket / Left Chest';
+  document.getElementById('dload-'+pl).innerHTML = '<div class="ditem"><div class="ditem-info"><div class="ditem-name">⬇ '+label+' Print File</div><div class="ditem-spec">'+specs[pl]+' · 300 DPI · PNG · Transparent BG</div></div><button class="ditem-btn" id="dbtn-'+pl+'" onclick="downloadFile(\''+pl+'\')">Download</button></div>';
 }
 
-async function downloadFile(size, label) {
-  const btn = document.getElementById(label==='left-chest'?'D1':label==='front-chest'?'D2':'D3');
-  const orig = btn.innerHTML;
-  btn.disabled=true;
-  btn.textContent='Generating...';
-  document.getElementById('ST').textContent='Generating print-ready file...';
+function pick(pl, i) {
+  var s = state[pl];
+  if(!s.imgs[i]) return;
+  s.selV = i;
+  document.getElementById('prev-'+pl).innerHTML = '<img src="'+s.imgs[i]+'" alt="preview"/>';
+  document.querySelectorAll('[id^="vc-'+pl+'-"]').forEach(function(c,j){c.classList.toggle('on',j===i);});
+}
 
+async function downloadFile(pl) {
+  var s = state[pl];
+  var btn = document.getElementById('dbtn-'+pl);
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+  document.getElementById('stat-'+pl).textContent = 'Preparing print file...';
   try {
-    const url = await callAPI(lastPrompt, size, true);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `clubflyers-design-${label}.png`;
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    document.getElementById('ST').textContent='Print file downloaded!';
+    var url = await callAPI(s.lastPrompt, sizes[pl], true);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'clubflyers-'+pl+'-design.png'; a.target = '_blank';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    document.getElementById('stat-'+pl).textContent = 'Print file downloaded!';
   } catch(e) {
-    document.getElementById('ST').textContent='Download failed. Try again.';
+    document.getElementById('stat-'+pl).textContent = 'Download failed. Try again.';
   }
-
-  btn.disabled=false;
-  btn.innerHTML=orig;
+  btn.disabled = false;
+  btn.textContent = 'Download';
 }
 
-function order(){
-  const mt=document.getElementById('mt').value.trim();
-  const sub=document.getElementById('st').value.trim();
-  const t1=document.getElementById('tc1').value.trim();
-  const t2=document.getElementById('tc2').value.trim();
-  const pal=palette==='Team colors'&&t1?`Team: ${t1}${t2?' & '+t2:''}`:palette;
-  const lbs=['Centered','Arch','Badge'];
-  alert('Order Summary:\n\nMain text: '+mt+'\nSecondary: '+(sub||'none')+'\nStyle: '+style+'\nPalette: '+pal+'\nShirt: '+shirt+'\nLayout: '+lbs[selV]+'\n\nNext step: Submit to Clubflyers!');
+function order() {
+  var lines = [];
+  selected.forEach(function(pl) {
+    var mt = document.getElementById(pl+'-mt').value.trim();
+    var s = state[pl];
+    var label = pl==='front'?'Large Front':pl==='back'?'Large Back':'Pocket';
+    lines.push(label+': "'+(mt||'(no text)')+'" — '+s.style+' style, '+s.palette+', '+s.shirt+' shirt');
+  });
+  alert('Order Summary:\n\nPlacements: '+[...selected].join(', ')+'\n\n'+lines.join('\n')+'\n\nNext step: Submit to Clubflyers!');
 }
 </script>
 </body>
