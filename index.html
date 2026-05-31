@@ -78,4 +78,273 @@ h1{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#
   <div class="layout">
     <div class="panel">
       <div class="sec">Your Design</div>
-      <div class="field"><label>Main text</label><input id
+      <div class="field"><label>Main text</label><input id="mt" placeholder="e.g. FAMILY REUNION 2025" maxlength="30"/></div>
+      <div class="field"><label>Secondary text</label><input id="st" placeholder="e.g. The Johnson Family" maxlength="40"/></div>
+      <div class="field"><label>Icons / elements</label><input id="ic" placeholder="e.g. palm trees, stars, basketball"/></div>
+      <div class="field">
+        <label>Style</label>
+        <div class="sgrid" id="SG">
+          <button class="sbtn on" data-s="Bold">Bold</button>
+          <button class="sbtn" data-s="Graffiti">Graffiti</button>
+          <button class="sbtn" data-s="Vintage">Vintage</button>
+          <button class="sbtn" data-s="Minimal">Minimal</button>
+          <button class="sbtn" data-s="Retro">Retro</button>
+          <button class="sbtn" data-s="Athletic">Athletic</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Color palette</label>
+        <div class="plist" id="PL">
+          <div class="prow on" data-p="Bold & vibrant" data-d="bold red, electric blue, and gold colors">
+            <div class="pdots"><div class="dot" style="background:#E02020"></div><div class="dot" style="background:#0066FF"></div><div class="dot" style="background:#F5C518"></div></div>
+            <span class="pname">Bold &amp; vibrant</span><span class="pk">✓</span>
+          </div>
+          <div class="prow" data-p="Bright neon" data-d="hot pink, electric cyan, and neon lime colors">
+            <div class="pdots"><div class="dot" style="background:#FF2D78"></div><div class="dot" style="background:#00CFFF"></div><div class="dot" style="background:#BFFF00"></div></div>
+            <span class="pname">Bright neon</span><span class="pk">✓</span>
+          </div>
+          <div class="prow" data-p="Earth & natural" data-d="warm brown, olive green, and tan colors">
+            <div class="pdots"><div class="dot" style="background:#A0522D"></div><div class="dot" style="background:#6B7C3A"></div><div class="dot" style="background:#C8A96E"></div></div>
+            <span class="pname">Earth &amp; natural</span><span class="pk">✓</span>
+          </div>
+          <div class="prow" data-p="Pastel" data-d="soft pink, baby blue, and mint green colors">
+            <div class="pdots"><div class="dot" style="background:#F9A8C9"></div><div class="dot" style="background:#A8C8F9"></div><div class="dot" style="background:#A8F9C8"></div></div>
+            <span class="pname">Pastel</span><span class="pk">✓</span>
+          </div>
+          <div class="prow" data-p="Dark & moody" data-d="deep navy, dark purple, and dark crimson colors">
+            <div class="pdots"><div class="dot" style="background:#1A1A2E"></div><div class="dot" style="background:#4A0E8F"></div><div class="dot" style="background:#8B0000"></div></div>
+            <span class="pname">Dark &amp; moody</span><span class="pk">✓</span>
+          </div>
+          <div class="prow" data-p="Team colors" data-d="custom team colors" id="TR">
+            <div class="pdots"><div class="dot" style="background:#003087"></div><div class="dot" style="background:#FFD700"></div><div class="dot" style="background:#fff;border-color:#ccc"></div></div>
+            <span class="pname">School / team colors</span><span class="pk">✓</span>
+          </div>
+        </div>
+        <div class="tcinput" id="TC">
+          <input id="tc1" placeholder="Color 1 (e.g. navy)"/>
+          <input id="tc2" placeholder="Color 2 (e.g. gold)"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Shirt color</label>
+        <div class="shgrid" id="SH">
+          <button class="shbtn on" data-sh="black"><span class="shsw" style="background:#111"></span>Black</button>
+          <button class="shbtn" data-sh="white"><span class="shsw" style="background:#F5F5F5;border-color:#aaa"></span>White</button>
+          <button class="shbtn" data-sh="navy"><span class="shsw" style="background:#1B2A4A"></span>Navy</button>
+          <button class="shbtn" data-sh="grey"><span class="shsw" style="background:#888"></span>Grey</button>
+          <button class="shbtn" data-sh="red"><span class="shsw" style="background:#C0001A"></span>Red</button>
+          <button class="shbtn" data-sh="royal blue"><span class="shsw" style="background:#1A3A9E"></span>Royal</button>
+          <button class="shbtn" data-sh="forest green"><span class="shsw" style="background:#1A4731"></span>Forest</button>
+          <button class="shbtn" data-sh="maroon"><span class="shsw" style="background:#5B0020"></span>Maroon</button>
+        </div>
+      </div>
+      <button class="gbtn" id="GB" onclick="go()">Generate Designs</button>
+    </div>
+
+    <div class="panel">
+      <div class="sec">Preview</div>
+      <div class="prev" id="PV">
+        <div class="prev-placeholder">
+          <div style="font-size:48px;opacity:0.2;margin-bottom:8px;">👕</div>
+          Fill in details and click Generate
+        </div>
+      </div>
+      <div class="stat" id="ST"></div>
+      <div class="vgrid" id="VG" style="display:none;"></div>
+
+      <div class="download-section" id="DS">
+        <div class="download-title">⬇ Download Print-Ready File</div>
+        <div class="dbgrid">
+          <button class="dbtn" id="D1" onclick="downloadFile('1024x1024','left-chest')" disabled>
+            Left Chest<span>4" × 4" · 300 DPI</span>
+          </button>
+          <button class="dbtn" id="D2" onclick="downloadFile('1024x1024','front-chest')" disabled>
+            Front Chest<span>12" × 12" · 300 DPI</span>
+          </button>
+          <button class="dbtn" id="D3" onclick="downloadFile('1024x1365','full-front')" disabled>
+            Full Front<span>12" × 16" · 300 DPI</span>
+          </button>
+        </div>
+      </div>
+
+      <button class="obtn" id="OB" disabled onclick="order()">🛒 Order with Clubflyers</button>
+      <div class="pw">Real AI designs by Recraft · Printed by Clubflyers</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '/api/generate';
+let style='Bold', palette='Bold & vibrant', palDesc='bold red, electric blue, and gold colors', shirt='black';
+let imgs=[null,null,null], selV=0, busy=false, lastPrompt='';
+
+const SP = {
+  Bold:'bold powerful block lettering, strong high contrast graphic design, professional apparel print',
+  Graffiti:'urban graffiti street art style, spray paint lettering, colorful street culture mural, wild style',
+  Vintage:'vintage distressed retro style, worn texture, classic Americana, aged letterpress, nostalgic feel',
+  Minimal:'clean minimal modern design, simple elegant typography, refined, lots of breathing room',
+  Retro:'retro 1980s synthwave style, neon outlines, chrome text, geometric shapes, vibrant pop',
+  Athletic:'bold varsity athletic style, collegiate sports jersey lettering, dynamic energetic graphic'
+};
+
+const layouts = [
+  'centered stacked text layout with decorative divider lines',
+  'arched headline over a central graphic element with tagline below',
+  'circular badge or crest composition with text and decorative border'
+];
+
+document.getElementById('SG').onclick = e => {
+  if(!e.target.dataset.s) return;
+  document.querySelectorAll('.sbtn').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on');
+  style = e.target.dataset.s;
+};
+document.getElementById('PL').onclick = e => {
+  const r = e.target.closest('.prow');
+  if(!r) return;
+  document.querySelectorAll('.prow').forEach(p=>p.classList.remove('on'));
+  r.classList.add('on');
+  palette = r.dataset.p;
+  palDesc = r.dataset.d;
+  document.getElementById('TC').classList.toggle('show', r.id==='TR');
+};
+document.getElementById('SH').onclick = e => {
+  const b = e.target.closest('[data-sh]');
+  if(!b) return;
+  document.querySelectorAll('.shbtn').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');
+  shirt = b.dataset.sh;
+};
+
+function buildPrompt(mainT, subT, icons, vi) {
+  const t1=document.getElementById('tc1').value.trim();
+  const t2=document.getElementById('tc2').value.trim();
+  const col=(palette==='Team colors'&&t1)?`${t1}${t2?' and '+t2:''} colors`:palDesc;
+  const sub=subT?`, secondary text says "${subT}"`:'';
+  const ico=icons?`, incorporating ${icons} as graphic elements`:'';
+  return `Professional t-shirt graphic design on a ${shirt} shirt. Main text says "${mainT}"${sub}${ico}. Style: ${SP[style]}. Color scheme: ${col}. Layout: ${layouts[vi]}. Flat vector illustration, screen-print ready, high contrast, no background, clean edges, centered composition.`;
+}
+
+async function callAPI(prompt, size, download) {
+  const resp = await fetch(API, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      prompt,
+      style:'digital_illustration',
+      model:'recraftv3',
+      size: size || '1024x1024',
+      download: download || false
+    })
+  });
+  const text = await resp.text();
+  const outer = JSON.parse(text);
+  const inner = typeof outer.raw==='string' ? JSON.parse(outer.raw) : outer;
+  if(!inner.data||!inner.data[0]||!inner.data[0].url) throw new Error(JSON.stringify(inner));
+  return inner.data[0].url;
+}
+
+async function go() {
+  const mt=document.getElementById('mt').value.trim();
+  if(!mt){document.getElementById('mt').focus();return;}
+  if(busy) return;
+  busy=true;
+
+  const btn=document.getElementById('GB');
+  btn.disabled=true;
+  btn.textContent='Generating...';
+  document.getElementById('ST').textContent='Sending to Recraft AI...';
+  document.getElementById('VG').style.display='none';
+  document.getElementById('OB').disabled=true;
+  document.getElementById('DS').classList.remove('show');
+  ['D1','D2','D3'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('PV').innerHTML='<div class="prev-placeholder"><div style="font-size:32px;margin-bottom:8px;">⏳</div>Creating your designs...<br><span style="font-size:11px;opacity:0.6;">15–25 sec per variation</span></div>';
+
+  const sub=document.getElementById('st').value.trim();
+  const ic=document.getElementById('ic').value.trim();
+  imgs=[null,null,null];
+  lastPrompt = buildPrompt(mt, sub, ic, 0);
+
+  const vg=document.getElementById('VG');
+  vg.style.display='grid';
+  vg.innerHTML=[0,1,2].map(i=>`<div class="vc ${i===0?'on':''}" id="vc${i}" onclick="pick(${i})"><div class="vph" id="vp${i}">...</div><div class="vlb" id="vl${i}">Generating...</div></div>`).join('');
+
+  let first=false;
+  const lbs=['Centered','Arch','Badge'];
+
+  await Promise.allSettled([0,1,2].map(async i=>{
+    try {
+      const url=await callAPI(buildPrompt(mt,sub,ic,i));
+      imgs[i]=url;
+      const vp=document.getElementById(`vp${i}`);
+      if(vp) vp.outerHTML=`<img src="${url}" alt="v${i+1}"/>`;
+      const vl=document.getElementById(`vl${i}`);
+      if(vl) vl.textContent=lbs[i];
+      if(!first&&url){
+        first=true; selV=i;
+        lastPrompt=buildPrompt(mt,sub,ic,i);
+        document.getElementById('PV').innerHTML=`<img src="${url}" alt="preview"/>`;
+        document.getElementById('ST').textContent='First design ready — more coming...';
+      }
+    } catch(e){
+      const vp=document.getElementById(`vp${i}`);
+      if(vp) vp.textContent='Failed';
+    }
+  }));
+
+  const ok=imgs.filter(Boolean).length;
+  document.getElementById('ST').textContent=ok>0?`${ok} variation${ok>1?'s':''} ready — pick your favorite`:'Generation failed. Try again.';
+  if(ok>0){
+    document.getElementById('OB').disabled=false;
+    document.getElementById('DS').classList.add('show');
+    ['D1','D2','D3'].forEach(id=>document.getElementById(id).disabled=false);
+  }
+  btn.disabled=false;
+  btn.textContent='Regenerate';
+  busy=false;
+}
+
+function pick(i){
+  if(!imgs[i]) return;
+  selV=i;
+  document.getElementById('PV').innerHTML=`<img src="${imgs[i]}" alt="preview"/>`;
+  document.querySelectorAll('.vc').forEach((c,j)=>c.classList.toggle('on',j===i));
+}
+
+async function downloadFile(size, label) {
+  const btn = document.getElementById(label==='left-chest'?'D1':label==='front-chest'?'D2':'D3');
+  const orig = btn.innerHTML;
+  btn.disabled=true;
+  btn.textContent='Generating...';
+  document.getElementById('ST').textContent='Generating print-ready file...';
+
+  try {
+    const url = await callAPI(lastPrompt, size, true);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `clubflyers-design-${label}.png`;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    document.getElementById('ST').textContent='Print file downloaded!';
+  } catch(e) {
+    document.getElementById('ST').textContent='Download failed. Try again.';
+  }
+
+  btn.disabled=false;
+  btn.innerHTML=orig;
+}
+
+function order(){
+  const mt=document.getElementById('mt').value.trim();
+  const sub=document.getElementById('st').value.trim();
+  const t1=document.getElementById('tc1').value.trim();
+  const t2=document.getElementById('tc2').value.trim();
+  const pal=palette==='Team colors'&&t1?`Team: ${t1}${t2?' & '+t2:''}`:palette;
+  const lbs=['Centered','Arch','Badge'];
+  alert('Order Summary:\n\nMain text: '+mt+'\nSecondary: '+(sub||'none')+'\nStyle: '+style+'\nPalette: '+pal+'\nShirt: '+shirt+'\nLayout: '+lbs[selV]+'\n\nNext step: Submit to Clubflyers!');
+}
+</script>
+</body>
+</html>
