@@ -65,9 +65,10 @@ module.exports = async function handler(req, res) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          version: '9c100f8f99e38a8cbb065104aa35b39a21901f7ae7aad88a7b75cac59e3a2be9',
+          version: 'f74986db0355b58403ed20963af156525e2891ea3c2d499bfbfb2a28cd87c5d7',
           input: {
-            image: imageUrl
+            image: imageUrl,
+            output_format: 'png'
           }
         })
       });
