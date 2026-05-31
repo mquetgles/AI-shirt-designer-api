@@ -6,13 +6,24 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
+    const { prompt, style, model, size, download } = req.body;
+
+    const payload = {
+      prompt: download
+        ? prompt + ', transparent background, no shirt, isolated graphic only, print-ready artwork'
+        : prompt,
+      style: style || 'digital_illustration',
+      model: model || 'recraftv3',
+      size: size || '1024x1024'
+    };
+
     const response = await fetch('https://external.api.recraft.ai/v1/images/generations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + process.env.RECRAFT_API_KEY
       },
-      body: JSON.stringify(req.body)
+      body: JSON.stringify(payload)
     });
 
     const text = await response.text();
