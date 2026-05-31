@@ -357,7 +357,21 @@ function buildPrompt(pl, vi) {
   var col=(s.palette==='Team colors'&&tc1)?tc1+(tc2?' and '+tc2:'')+' colors':s.palDesc;
   var sub=st?', secondary text says "'+st+'"':'';
   var ico=ic?', incorporating '+ic+' as illustrated elements':'';
-  return 'Isolated graphic design artwork asset for screen printing. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. This is a standalone graphic design asset — NOT a product photo, NOT apparel photography, NOT a shirt mockup. Pure solid white background only. Clean vector illustration style, centered composition, print-ready artwork.';
+
+  // Contrast guidance based on shirt color
+  var contrastNote = '';
+  if(s.shirt==='black'||s.shirt==='navy'||s.shirt==='maroon'||s.shirt==='forest green') {
+    contrastNote = ' IMPORTANT: This design will be printed on a DARK '+s.shirt+' shirt — use BRIGHT, LIGHT, and HIGH-CONTRAST colors that will stand out clearly on dark fabric. Avoid dark navy, dark grey, dark brown, or black in the design.';
+  } else if(s.shirt==='white'||s.shirt==='grey') {
+    contrastNote = ' IMPORTANT: This design will be printed on a LIGHT '+s.shirt+' shirt — use DARK, BOLD, and HIGH-CONTRAST colors that will stand out clearly on light fabric. Avoid white, cream, or very light colors in the design.';
+  } else if(s.shirt==='red'||s.shirt==='royal blue') {
+    contrastNote = ' IMPORTANT: This design will be printed on a '+s.shirt+' shirt — use WHITE, GOLD, BLACK, or colors that contrast strongly against '+s.shirt+'.';
+  }
+
+  // Stronger palette enforcement
+  var paletteNote = ' The ENTIRE design MUST use ONLY these colors: '+col+'. This is mandatory — do not use any other colors.';
+
+  return 'Isolated graphic design artwork asset for screen printing. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'.'+paletteNote+contrastNote+' Layout: '+layouts[vi]+'. This is a standalone graphic design asset — NOT a product photo, NOT apparel photography, NOT a shirt mockup. Pure solid white background only. Clean vector illustration style, centered composition, print-ready artwork.';
 }
 
 async function callAPI(prompt, size) {
