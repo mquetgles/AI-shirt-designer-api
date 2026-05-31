@@ -280,14 +280,14 @@ function buildPrompt(pl, vi) {
   return 'Professional t-shirt graphic design for the '+side+', on a '+s.shirt+' shirt. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. Flat vector illustration, screen-print ready, high contrast, transparent background, clean edges, centered composition.';
 }
 
-async function callAPI(prompt, size, download) {
+async function callAPI(prompt, size) {
   var resp = await fetch(API, {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({
-      prompt: download ? prompt+',  : prompt,
+      prompt: prompt,
       style:'digital_illustration', model:'recraftv3',
-      size: size||'1024x1024', download: download||false
+      size: size||'1024x1024'
     })
   });
   var text = await resp.text();
@@ -295,6 +295,7 @@ async function callAPI(prompt, size, download) {
   var inner = typeof outer.raw==='string' ? JSON.parse(outer.raw) : outer;
   if(!inner.data||!inner.data[0]||!inner.data[0].url) throw new Error(JSON.stringify(inner));
   return inner.data[0].url;
+}
 }
 
 async function generate(pl) {
