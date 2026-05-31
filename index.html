@@ -57,7 +57,6 @@ h1{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#
 .gbtn{width:100%;padding:12px;background:#111;color:#fff;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;cursor:pointer;margin-top:10px;transition:opacity 0.15s;}
 .gbtn:hover{opacity:0.85;}
 .gbtn:disabled{opacity:0.4;cursor:not-allowed;}
-.preview-col{}
 .canvas-wrap{background:#e8e8e8;border-radius:12px;border:1px solid #e0e0e0;margin-bottom:8px;display:flex;align-items:center;justify-content:center;min-height:240px;overflow:hidden;}
 .canvas-wrap canvas{max-width:100%;border-radius:12px;}
 .prev-placeholder{text-align:center;color:#bbb;font-size:12px;padding:2rem;}
@@ -121,7 +120,7 @@ h1{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#
 <div class="field"><label>Shirt color</label><div class="shgrid" data-grid="front-shirt"><button class="shbtn on" data-sh="black"><span class="shsw" style="background:#111"></span>Black</button><button class="shbtn" data-sh="white"><span class="shsw" style="background:#F5F5F5;border-color:#aaa"></span>White</button><button class="shbtn" data-sh="navy"><span class="shsw" style="background:#1B2A4A"></span>Navy</button><button class="shbtn" data-sh="grey"><span class="shsw" style="background:#888"></span>Grey</button><button class="shbtn" data-sh="red"><span class="shsw" style="background:#C0001A"></span>Red</button><button class="shbtn" data-sh="royal blue"><span class="shsw" style="background:#1A3A9E"></span>Royal</button><button class="shbtn" data-sh="forest green"><span class="shsw" style="background:#1A4731"></span>Forest</button><button class="shbtn" data-sh="maroon"><span class="shsw" style="background:#5B0020"></span>Maroon</button></div></div>
 <button class="gbtn" id="gbtn-front" onclick="generate('front')">Generate Front Design</button>
 </div>
-<div class="col preview-col">
+<div class="col">
 <div class="sec">Preview</div>
 <div class="canvas-wrap" id="cwrap-front"><div class="prev-placeholder">👕<br>Click Generate</div></div>
 <div class="stat" id="stat-front"></div>
@@ -154,7 +153,7 @@ h1{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#
 <div class="field"><label>Shirt color</label><div class="shgrid" data-grid="back-shirt"><button class="shbtn on" data-sh="black"><span class="shsw" style="background:#111"></span>Black</button><button class="shbtn" data-sh="white"><span class="shsw" style="background:#F5F5F5;border-color:#aaa"></span>White</button><button class="shbtn" data-sh="navy"><span class="shsw" style="background:#1B2A4A"></span>Navy</button><button class="shbtn" data-sh="grey"><span class="shsw" style="background:#888"></span>Grey</button><button class="shbtn" data-sh="red"><span class="shsw" style="background:#C0001A"></span>Red</button><button class="shbtn" data-sh="royal blue"><span class="shsw" style="background:#1A3A9E"></span>Royal</button><button class="shbtn" data-sh="forest green"><span class="shsw" style="background:#1A4731"></span>Forest</button><button class="shbtn" data-sh="maroon"><span class="shsw" style="background:#5B0020"></span>Maroon</button></div></div>
 <button class="gbtn" id="gbtn-back" onclick="generate('back')">Generate Back Design</button>
 </div>
-<div class="col preview-col">
+<div class="col">
 <div class="sec">Preview</div>
 <div class="canvas-wrap" id="cwrap-back"><div class="prev-placeholder">👕<br>Click Generate</div></div>
 <div class="stat" id="stat-back"></div>
@@ -187,7 +186,7 @@ h1{font-family:'Bebas Neue',sans-serif;font-size:48px;letter-spacing:3px;color:#
 <div class="field"><label>Shirt color</label><div class="shgrid" data-grid="pocket-shirt"><button class="shbtn on" data-sh="black"><span class="shsw" style="background:#111"></span>Black</button><button class="shbtn" data-sh="white"><span class="shsw" style="background:#F5F5F5;border-color:#aaa"></span>White</button><button class="shbtn" data-sh="navy"><span class="shsw" style="background:#1B2A4A"></span>Navy</button><button class="shbtn" data-sh="grey"><span class="shsw" style="background:#888"></span>Grey</button><button class="shbtn" data-sh="red"><span class="shsw" style="background:#C0001A"></span>Red</button><button class="shbtn" data-sh="royal blue"><span class="shsw" style="background:#1A3A9E"></span>Royal</button><button class="shbtn" data-sh="forest green"><span class="shsw" style="background:#1A4731"></span>Forest</button><button class="shbtn" data-sh="maroon"><span class="shsw" style="background:#5B0020"></span>Maroon</button></div></div>
 <button class="gbtn" id="gbtn-pocket" onclick="generate('pocket')">Generate Pocket Design</button>
 </div>
-<div class="col preview-col">
+<div class="col">
 <div class="sec">Preview</div>
 <div class="canvas-wrap" id="cwrap-pocket"><div class="prev-placeholder">📌<br>Click Generate</div></div>
 <div class="stat" id="stat-pocket"></div>
@@ -214,155 +213,94 @@ const state = {
 };
 const sizes = {front:'1024x1024',back:'1024x1024',pocket:'1024x1024'};
 const specs = {front:'12"x12"',back:'12"x12"',pocket:'4"x4"'};
-
 const shirtColors = {
   'black':'#111111','white':'#F0F0F0','navy':'#1B2A4A','grey':'#888888',
   'red':'#C0001A','royal blue':'#1A3A9E','forest green':'#1A4731','maroon':'#5B0020'
 };
-
 const SP = {
-  Bold:'bold powerful block lettering, strong high contrast graphic design, professional apparel print',
-  Graffiti:'urban graffiti street art style, spray paint lettering, colorful street culture mural, wild style',
-  Vintage:'vintage distressed retro style, worn texture, classic Americana, aged letterpress, nostalgic feel',
-  Minimal:'clean minimal modern design, simple elegant typography, refined, lots of breathing room',
-  Retro:'retro 1980s synthwave style, neon outlines, chrome text, geometric shapes, vibrant pop',
-  Athletic:'bold varsity athletic style, collegiate sports jersey lettering, dynamic energetic graphic'
+  Bold:'bold powerful block lettering, strong high contrast, clean professional graphic design asset',
+  Graffiti:'urban graffiti street art style, spray paint wild style lettering, colorful street culture graphic asset',
+  Vintage:'vintage distressed retro style, worn texture, classic Americana, aged letterpress graphic asset',
+  Minimal:'clean minimal modern design, simple elegant typography, refined graphic design asset',
+  Retro:'retro 1980s synthwave style, neon outlines, chrome text, geometric shapes graphic asset',
+  Athletic:'bold varsity athletic style, collegiate sports lettering, dynamic energetic graphic design asset'
 };
 const layouts = [
-  'centered stacked text layout with decorative divider lines',
-  'arched headline over a central graphic element with tagline below',
+  'centered stacked composition with decorative divider lines',
+  'arched headline over a central illustration with tagline below',
   'circular badge or crest composition with text and decorative border'
 ];
 
-// Draw shirt mockup SVG onto canvas, then composite design on top
 function drawShirtCanvas(canvasEl, shirtColor, designImgEl, placement) {
-  var W = 300, H = 340;
-  canvasEl.width = W;
-  canvasEl.height = H;
-  var ctx = canvasEl.getContext('2d');
-  var sc = shirtColors[shirtColor] || '#111111';
-
-  // Draw shirt shape
-  ctx.fillStyle = sc;
+  var W=300, H=340;
+  canvasEl.width=W; canvasEl.height=H;
+  var ctx=canvasEl.getContext('2d');
+  var sc=shirtColors[shirtColor]||'#111111';
+  ctx.fillStyle=sc;
   ctx.beginPath();
-  // Body
-  ctx.moveTo(75, 80);
-  ctx.lineTo(30, 110);
-  ctx.lineTo(20, 170);
-  ctx.lineTo(50, 175);
-  ctx.lineTo(50, 310);
-  ctx.lineTo(250, 310);
-  ctx.lineTo(250, 175);
-  ctx.lineTo(280, 170);
-  ctx.lineTo(270, 110);
-  ctx.lineTo(225, 80);
-  // Collar
-  ctx.quadraticCurveTo(210, 60, 150, 65);
-  ctx.quadraticCurveTo(90, 60, 75, 80);
-  ctx.closePath();
-  ctx.fill();
-
-  // Sleeves
+  ctx.moveTo(75,80); ctx.lineTo(30,110); ctx.lineTo(20,170); ctx.lineTo(50,175);
+  ctx.lineTo(50,310); ctx.lineTo(250,310); ctx.lineTo(250,175); ctx.lineTo(280,170);
+  ctx.lineTo(270,110); ctx.lineTo(225,80);
+  ctx.quadraticCurveTo(210,60,150,65);
+  ctx.quadraticCurveTo(90,60,75,80);
+  ctx.closePath(); ctx.fill();
   ctx.beginPath();
-  ctx.moveTo(75, 80);
-  ctx.lineTo(30, 110);
-  ctx.lineTo(20, 170);
-  ctx.lineTo(50, 175);
-  ctx.lineTo(65, 130);
-  ctx.lineTo(80, 100);
-  ctx.closePath();
-  ctx.fill();
-
+  ctx.moveTo(75,80); ctx.lineTo(30,110); ctx.lineTo(20,170); ctx.lineTo(50,175);
+  ctx.lineTo(65,130); ctx.lineTo(80,100); ctx.closePath(); ctx.fill();
   ctx.beginPath();
-  ctx.moveTo(225, 80);
-  ctx.lineTo(270, 110);
-  ctx.lineTo(280, 170);
-  ctx.lineTo(250, 175);
-  ctx.lineTo(235, 130);
-  ctx.lineTo(220, 100);
-  ctx.closePath();
-  ctx.fill();
-
-  // Subtle shade for depth
-  ctx.fillStyle = 'rgba(0,0,0,0.08)';
+  ctx.moveTo(225,80); ctx.lineTo(270,110); ctx.lineTo(280,170); ctx.lineTo(250,175);
+  ctx.lineTo(235,130); ctx.lineTo(220,100); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='rgba(0,0,0,0.06)';
   ctx.beginPath();
-  ctx.moveTo(150, 65);
-  ctx.lineTo(130, 80);
-  ctx.lineTo(130, 310);
-  ctx.lineTo(150, 310);
-  ctx.closePath();
-  ctx.fill();
-
-  // Draw design on shirt if available
+  ctx.moveTo(150,65); ctx.lineTo(130,80); ctx.lineTo(130,310); ctx.lineTo(150,310);
+  ctx.closePath(); ctx.fill();
   if(designImgEl) {
-    var px, py, pw, ph;
-    if(placement === 'pocket') {
-      // Left chest small
-      px = 80; py = 110; pw = 60; ph = 60;
-    } else {
-      // Large front/back centered
-      px = 75; py = 110; pw = 150; ph = 150;
-    }
-    ctx.save();
-    ctx.globalAlpha = 0.95;
-    ctx.drawImage(designImgEl, px, py, pw, ph);
+    var px,py,pw,ph;
+    if(placement==='pocket'){px=85;py=115;pw=55;ph=55;}
+    else{px=75;py=105;pw=150;ph=150;}
+    ctx.save(); ctx.globalAlpha=0.97;
+    ctx.drawImage(designImgEl,px,py,pw,ph);
     ctx.restore();
   }
 }
 
-function makeThumbCanvas(shirtColor, designImgEl, placement) {
-  var c = document.createElement('canvas');
-  drawShirtCanvas(c, shirtColor, designImgEl, placement);
-  return c;
+function loadImage(url) {
+  return new Promise(function(resolve,reject){
+    var img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=function(){resolve(img);};
+    img.onerror=function(){reject(new Error('Image load failed'));};
+    img.src=url;
+  });
 }
 
-async function removeBg(imageUrl) {
-  // Step 1: API background removal
+async function removeBgBiRefNet(imageUrl) {
   var resp = await fetch(API, {
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify({action:'remove_background', imageUrl: imageUrl})
   });
-  var text = await resp.text();
-  var outer = JSON.parse(text);
-  var data = typeof outer.raw==='string' ? JSON.parse(outer.raw) : outer;
-  var url = data.image ? data.image.url : (data.data && data.data[0] ? data.data[0].url : null);
-  if(!url) throw new Error('Remove BG failed: ' + text);
-
-  // Step 2: Canvas chroma key cleanup
-  // Remove any remaining pure green (#00FF00) pixels left after API removal
-  var img = await loadImage(url);
-  var c = document.createElement('canvas');
-  c.width = img.naturalWidth;
-  c.height = img.naturalHeight;
-  var ctx = c.getContext('2d');
-  ctx.drawImage(img, 0, 0);
-  var imageData = ctx.getImageData(0, 0, c.width, c.height);
-  var pixels = imageData.data;
-  for(var i = 0; i < pixels.length; i += 4) {
-    var r = pixels[i], g = pixels[i+1], b = pixels[i+2];
-    // Remove pure green and near-green pixels (chroma key tolerance)
-    // Green channel dominant, red and blue low
-    if(g > 180 && r < 100 && b < 100) {
-      pixels[i+3] = 0; // transparent
-    }
-  }
-  ctx.putImageData(imageData, 0, 0);
-  return c.toDataURL('image/png');
+  var data = await resp.json();
+  if(!data.url) throw new Error('BiRefNet failed: ' + JSON.stringify(data));
+  return data.url;
 }
 
-function loadImage(url) {
-  return new Promise(function(resolve, reject) {
-    var img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = function(){ resolve(img); };
-    img.onerror = function(){ reject(new Error('Image load failed: ' + url)); };
-    img.src = url;
+async function upscaleImage(imageUrl) {
+  var resp = await fetch(API, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({action:'upscale', imageUrl: imageUrl})
   });
+  var text = await resp.text();
+  var outer = JSON.parse(text);
+  var inner = typeof outer.raw==='string' ? JSON.parse(outer.raw) : outer;
+  var url = inner.image ? inner.image.url : (inner.data && inner.data[0] ? inner.data[0].url : null);
+  if(!url) throw new Error('Upscale failed: ' + text);
+  return url;
 }
 
 function togglePlacement(pl) {
-  if(selected.has(pl)) {
+  if(selected.has(pl)){
     selected.delete(pl);
     document.querySelector('[data-pl="'+pl+'"]').classList.remove('on');
     document.getElementById('panel-'+pl).classList.add('hidden');
@@ -371,227 +309,200 @@ function togglePlacement(pl) {
     document.querySelector('[data-pl="'+pl+'"]').classList.add('on');
     document.getElementById('panel-'+pl).classList.remove('hidden');
   }
-  document.getElementById('OrderBar').style.display = selected.size > 0 ? 'block' : 'none';
+  document.getElementById('OrderBar').style.display=selected.size>0?'block':'none';
 }
 
-document.querySelectorAll('[data-grid$="-style"]').forEach(function(grid) {
-  var pl = grid.dataset.grid.replace('-style','');
-  grid.onclick = function(e) {
+document.querySelectorAll('[data-grid$="-style"]').forEach(function(grid){
+  var pl=grid.dataset.grid.replace('-style','');
+  grid.onclick=function(e){
     if(!e.target.dataset.s) return;
     grid.querySelectorAll('.sbtn').forEach(function(b){b.classList.remove('on');});
     e.target.classList.add('on');
-    state[pl].style = e.target.dataset.s;
+    state[pl].style=e.target.dataset.s;
   };
 });
 
-document.querySelectorAll('[data-list$="-palette"]').forEach(function(list) {
-  var pl = list.dataset.list.replace('-palette','');
-  list.onclick = function(e) {
-    var r = e.target.closest('.prow');
+document.querySelectorAll('[data-list$="-palette"]').forEach(function(list){
+  var pl=list.dataset.list.replace('-palette','');
+  list.onclick=function(e){
+    var r=e.target.closest('.prow');
     if(!r) return;
     list.querySelectorAll('.prow').forEach(function(p){p.classList.remove('on');});
     r.classList.add('on');
-    state[pl].palette = r.dataset.p;
-    state[pl].palDesc = r.dataset.d;
-    var tc = document.getElementById(pl+'-tc');
-    if(tc) tc.classList.toggle('show', r.dataset.team === pl);
+    state[pl].palette=r.dataset.p;
+    state[pl].palDesc=r.dataset.d;
+    var tc=document.getElementById(pl+'-tc');
+    if(tc) tc.classList.toggle('show',r.dataset.team===pl);
   };
 });
 
-document.querySelectorAll('[data-grid$="-shirt"]').forEach(function(grid) {
-  var pl = grid.dataset.grid.replace('-shirt','');
-  grid.onclick = function(e) {
-    var b = e.target.closest('[data-sh]');
+document.querySelectorAll('[data-grid$="-shirt"]').forEach(function(grid){
+  var pl=grid.dataset.grid.replace('-shirt','');
+  grid.onclick=function(e){
+    var b=e.target.closest('[data-sh]');
     if(!b) return;
     grid.querySelectorAll('.shbtn').forEach(function(x){x.classList.remove('on');});
     b.classList.add('on');
-    state[pl].shirt = b.dataset.sh;
+    state[pl].shirt=b.dataset.sh;
   };
 });
 
 function buildPrompt(pl, vi) {
-  var s = state[pl];
-  var mt = document.getElementById(pl+'-mt').value.trim();
-  var st = document.getElementById(pl+'-st').value.trim();
-  var ic = document.getElementById(pl+'-ic').value.trim();
-  var tc1 = document.getElementById(pl+'-tc1').value.trim();
-  var tc2 = document.getElementById(pl+'-tc2').value.trim();
-  var col = (s.palette==='Team colors'&&tc1) ? tc1+(tc2?' and '+tc2:'')+' colors' : s.palDesc;
-  var sub = st ? ', secondary text says "'+st+'"' : '';
-  var ico = ic ? ', incorporating '+ic+' as graphic elements' : '';
-  return 'Flat graphic design artwork for t-shirt printing. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. The artwork must be on a PURE BRIGHT GREEN background, hex color #00FF00, RGB 0 255 0, solid flat green only, NO shirt, NO clothing, NO fabric, NO mockup, NO shadows. Clean vector illustration style, isolated artwork, print-ready, high contrast.';
+  var s=state[pl];
+  var mt=document.getElementById(pl+'-mt').value.trim();
+  var st=document.getElementById(pl+'-st').value.trim();
+  var ic=document.getElementById(pl+'-ic').value.trim();
+  var tc1=document.getElementById(pl+'-tc1').value.trim();
+  var tc2=document.getElementById(pl+'-tc2').value.trim();
+  var col=(s.palette==='Team colors'&&tc1)?tc1+(tc2?' and '+tc2:'')+' colors':s.palDesc;
+  var sub=st?', secondary text says "'+st+'"':'';
+  var ico=ic?', incorporating '+ic+' as illustrated elements':'';
+  return 'Isolated graphic design artwork asset for screen printing. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. This is a standalone graphic design asset — NOT a product photo, NOT apparel photography, NOT a shirt mockup. Pure solid white background only. Clean vector illustration style, centered composition, print-ready artwork.';
+}
 
 async function callAPI(prompt, size) {
-  var resp = await fetch(API, {
+  var resp=await fetch(API,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({prompt:prompt, style:'digital_illustration', model:'recraftv3', size:size||'1024x1024'})
+    body:JSON.stringify({prompt:prompt,style:'digital_illustration',model:'recraftv3',size:size||'1024x1024'})
   });
-  var text = await resp.text();
-  var outer = JSON.parse(text);
-  var inner = typeof outer.raw==='string' ? JSON.parse(outer.raw) : outer;
+  var text=await resp.text();
+  var outer=JSON.parse(text);
+  var inner=typeof outer.raw==='string'?JSON.parse(outer.raw):outer;
   if(!inner.data||!inner.data[0]||!inner.data[0].url) throw new Error(JSON.stringify(inner));
   return inner.data[0].url;
 }
 
 async function generate(pl) {
-  var s = state[pl];
-  var mt = document.getElementById(pl+'-mt').value.trim();
+  var s=state[pl];
+  var mt=document.getElementById(pl+'-mt').value.trim();
   if(!mt){document.getElementById(pl+'-mt').focus();return;}
   if(s.busy) return;
-  s.busy = true;
-
-  var btn = document.getElementById('gbtn-'+pl);
-  btn.disabled = true;
-  btn.textContent = 'Generating...';
-  var stat = document.getElementById('stat-'+pl);
-  stat.textContent = 'Generating designs...';
-  document.getElementById('vgrid-'+pl).style.display = 'none';
-  document.getElementById('dload-'+pl).innerHTML = '';
-  var cwrap = document.getElementById('cwrap-'+pl);
-  cwrap.innerHTML = '<div class="prev-placeholder">⏳<br>Creating designs...<br><span style="font-size:10px;opacity:0.6;">Generating + removing background</span></div>';
-
-  s.imgs = [null,null,null];
-  s.cleanImgs = [null,null,null];
-
-  var vg = document.getElementById('vgrid-'+pl);
-  vg.style.display = 'grid';
-  vg.innerHTML = [0,1,2].map(function(i){
+  s.busy=true;
+  var btn=document.getElementById('gbtn-'+pl);
+  btn.disabled=true; btn.textContent='Generating...';
+  var stat=document.getElementById('stat-'+pl);
+  stat.textContent='Generating designs...';
+  document.getElementById('vgrid-'+pl).style.display='none';
+  document.getElementById('dload-'+pl).innerHTML='';
+  var cwrap=document.getElementById('cwrap-'+pl);
+  cwrap.innerHTML='<div class="prev-placeholder">⏳<br>Generating + processing...<br><span style="font-size:10px;opacity:0.6;">~30-40 seconds</span></div>';
+  s.imgs=[null,null,null]; s.cleanImgs=[null,null,null];
+  var vg=document.getElementById('vgrid-'+pl);
+  vg.style.display='grid';
+  vg.innerHTML=[0,1,2].map(function(i){
     return '<div class="vc '+(i===0?'on':'')+'" id="vc-'+pl+'-'+i+'" onclick="pick(\''+pl+'\','+i+')"><div class="vph" id="vp-'+pl+'-'+i+'">...</div><div class="vlb" id="vl-'+pl+'-'+i+'">...</div></div>';
   }).join('');
+  var lbs=['Centered','Arch','Badge'];
+  var first=false;
 
-  var lbs = ['Centered','Arch','Badge'];
-  var first = false;
-
-  await Promise.allSettled([0,1,2].map(async function(i) {
+  await Promise.allSettled([0,1,2].map(async function(i){
     try {
-      // Step 1: Generate
-      var prompt = buildPrompt(pl, i);
-      var rawUrl = await callAPI(prompt, sizes[pl]);
-      s.imgs[i] = rawUrl;
-      s.lastPrompt = prompt;
+      // Step 1: Generate artwork
+      var prompt=buildPrompt(pl,i);
+      stat.textContent='Generating variation '+(i+1)+'...';
+      var rawUrl=await callAPI(prompt,sizes[pl]);
+      s.imgs[i]=rawUrl;
 
-      // Step 2: Remove background automatically
-      stat.textContent = 'Removing background for variation '+(i+1)+'...';
-      var cleanUrl = await removeBg(rawUrl);
-      s.cleanImgs[i] = cleanUrl;
+      // Step 2: Upscale FIRST (before bg removal)
+      stat.textContent='Upscaling variation '+(i+1)+'...';
+      var upscaledUrl=await upscaleImage(rawUrl);
 
-      // Step 3: Load clean image and composite onto shirt canvas
-      var designImg = await loadImage(cleanUrl);
-      var thumbCanvas = makeThumbCanvas(s.shirt, designImg, pl);
+      // Step 3: Remove background with BiRefNet
+      stat.textContent='Removing background '+(i+1)+'...';
+      var cleanUrl=await removeBgBiRefNet(upscaledUrl);
+      s.cleanImgs[i]=cleanUrl;
 
-      // Update variation thumbnail
-      var vp = document.getElementById('vp-'+pl+'-'+i);
-      if(vp) {
-        vp.outerHTML = '<canvas id="vcanvas-'+pl+'-'+i+'" style="width:100%;aspect-ratio:1;border-radius:4px;display:block;margin-bottom:3px;"></canvas>';
-        var vc = document.getElementById('vcanvas-'+pl+'-'+i);
-        if(vc) {
-          vc.width = thumbCanvas.width;
-          vc.height = thumbCanvas.height;
-          vc.getContext('2d').drawImage(thumbCanvas, 0, 0);
-        }
+      // Step 4: Composite onto shirt canvas
+      var designImg=await loadImage(cleanUrl);
+      var thumbCanvas=document.createElement('canvas');
+      drawShirtCanvas(thumbCanvas,s.shirt,designImg,pl);
+
+      var vp=document.getElementById('vp-'+pl+'-'+i);
+      if(vp){
+        vp.outerHTML='<canvas id="vcanvas-'+pl+'-'+i+'" style="width:100%;aspect-ratio:1;border-radius:4px;display:block;margin-bottom:3px;"></canvas>';
+        var vc=document.getElementById('vcanvas-'+pl+'-'+i);
+        if(vc){vc.width=thumbCanvas.width;vc.height=thumbCanvas.height;vc.getContext('2d').drawImage(thumbCanvas,0,0);}
       }
-      var vl = document.getElementById('vl-'+pl+'-'+i);
-      if(vl) vl.textContent = lbs[i];
+      var vl=document.getElementById('vl-'+pl+'-'+i);
+      if(vl) vl.textContent=lbs[i];
 
-      // Show first result in main preview
-      if(!first) {
-        first = true;
-        s.selV = i;
-        var mainCanvas = document.createElement('canvas');
-        drawShirtCanvas(mainCanvas, s.shirt, designImg, pl);
-        cwrap.innerHTML = '';
-        cwrap.appendChild(mainCanvas);
-        stat.textContent = 'First design ready — more coming...';
+      if(!first){
+        first=true; s.selV=i;
+        var mainCanvas=document.createElement('canvas');
+        drawShirtCanvas(mainCanvas,s.shirt,designImg,pl);
+        cwrap.innerHTML=''; cwrap.appendChild(mainCanvas);
+        stat.textContent='First design ready — more coming...';
       }
-    } catch(e) {
-      console.error('Variation '+i+' error:', e.message);
-      var vp = document.getElementById('vp-'+pl+'-'+i);
-      if(vp) vp.textContent = 'Failed';
+    } catch(e){
+      console.error('Variation '+i+' error:',e.message);
+      var vp=document.getElementById('vp-'+pl+'-'+i);
+      if(vp) vp.textContent='Failed';
     }
   }));
 
-  var ok = s.cleanImgs.filter(Boolean).length;
-  if(ok > 0) {
-    stat.textContent = ok+' variation'+(ok>1?'s':'')+' ready — pick your favorite';
+  var ok=s.cleanImgs.filter(Boolean).length;
+  if(ok>0){
+    stat.textContent=ok+' variation'+(ok>1?'s':'')+' ready — pick your favorite';
     showDownload(pl);
   } else {
-    stat.textContent = 'Generation failed. Try again.';
+    stat.textContent='Generation failed. Try again.';
   }
-  btn.disabled = false;
-  btn.textContent = 'Regenerate '+pl.charAt(0).toUpperCase()+pl.slice(1);
-  s.busy = false;
+  btn.disabled=false;
+  btn.textContent='Regenerate '+pl.charAt(0).toUpperCase()+pl.slice(1);
+  s.busy=false;
 }
 
 function showDownload(pl) {
-  var label = pl==='front'?'Large Front':pl==='back'?'Large Back':'Pocket / Left Chest';
-  document.getElementById('dload-'+pl).innerHTML =
+  var label=pl==='front'?'Large Front':pl==='back'?'Large Back':'Pocket / Left Chest';
+  document.getElementById('dload-'+pl).innerHTML=
     '<div class="ditem"><div class="ditem-info"><div class="ditem-name">⬇ '+label+' Print File</div><div class="ditem-spec">'+specs[pl]+' · 300 DPI · PNG · Transparent BG</div></div><button class="ditem-btn" id="dbtn-'+pl+'" onclick="downloadFile(\''+pl+'\')">Download</button></div>';
 }
 
-async function pick(pl, i) {
-  var s = state[pl];
+async function pick(pl,i) {
+  var s=state[pl];
   if(!s.cleanImgs[i]) return;
-  s.selV = i;
-  var cwrap = document.getElementById('cwrap-'+pl);
+  s.selV=i;
+  var cwrap=document.getElementById('cwrap-'+pl);
   try {
-    var designImg = await loadImage(s.cleanImgs[i]);
-    var mainCanvas = document.createElement('canvas');
-    drawShirtCanvas(mainCanvas, s.shirt, designImg, pl);
-    cwrap.innerHTML = '';
-    cwrap.appendChild(mainCanvas);
-  } catch(e) {
-    console.error(e);
-  }
+    var designImg=await loadImage(s.cleanImgs[i]);
+    var mainCanvas=document.createElement('canvas');
+    drawShirtCanvas(mainCanvas,s.shirt,designImg,pl);
+    cwrap.innerHTML=''; cwrap.appendChild(mainCanvas);
+  } catch(e){console.error(e);}
   document.querySelectorAll('[id^="vc-'+pl+'-"]').forEach(function(c,j){c.classList.toggle('on',j===i);});
 }
 
 async function downloadFile(pl) {
-  var s = state[pl];
-  var cleanUrl = s.cleanImgs[s.selV];
-  if(!cleanUrl) { alert('Please generate a design first'); return; }
-  var btn = document.getElementById('dbtn-'+pl);
-  btn.disabled = true;
-  btn.textContent = 'Upscaling...';
-  var stat = document.getElementById('stat-'+pl);
-  stat.textContent = 'Upscaling for print...';
-
+  var s=state[pl];
+  var cleanUrl=s.cleanImgs[s.selV];
+  if(!cleanUrl){alert('Please generate a design first');return;}
+  var btn=document.getElementById('dbtn-'+pl);
+  btn.disabled=true; btn.textContent='Downloading...';
+  var stat=document.getElementById('stat-'+pl);
+  stat.textContent='Preparing download...';
   try {
-    // Upscale the already-background-removed image
-    var upResp = await fetch(API, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({action:'upscale', imageUrl: cleanUrl})
-    });
-    var upText = await upResp.text();
-    var upOuter = JSON.parse(upText);
-    var upData = typeof upOuter.raw==='string' ? JSON.parse(upOuter.raw) : upOuter;
-    var finalUrl = upData.image ? upData.image.url : (upData.data && upData.data[0] ? upData.data[0].url : null);
-    if(!finalUrl) throw new Error('Upscale failed: ' + upText);
-
-    stat.textContent = 'Downloading...';
-    var a = document.createElement('a');
-    a.href = finalUrl;
-    a.download = 'clubflyers-'+pl+'-design.png';
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    stat.textContent = 'Downloaded! Background removed + upscaled for print.';
-  } catch(e) {
+    // The cleanImgs already went through upscale → BiRefNet
+    // Just download directly
+    var a=document.createElement('a');
+    a.href=cleanUrl;
+    a.download='clubflyers-'+pl+'-design.png';
+    a.target='_blank';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    stat.textContent='Downloaded! Transparent PNG ready for printing.';
+  } catch(e){
     console.error(e);
-    stat.textContent = 'Download failed: '+e.message;
+    stat.textContent='Download failed: '+e.message;
   }
-  btn.disabled = false;
-  btn.textContent = 'Download';
+  btn.disabled=false; btn.textContent='Download';
 }
 
 function order() {
-  var lines = [];
-  selected.forEach(function(pl) {
-    var mt = document.getElementById(pl+'-mt').value.trim();
-    var s = state[pl];
-    var label = pl==='front'?'Large Front':pl==='back'?'Large Back':'Pocket';
+  var lines=[];
+  selected.forEach(function(pl){
+    var mt=document.getElementById(pl+'-mt').value.trim();
+    var s=state[pl];
+    var label=pl==='front'?'Large Front':pl==='back'?'Large Back':'Pocket';
     lines.push(label+': "'+(mt||'(no text)')+'" — '+s.style+' style, '+s.palette+', '+s.shirt+' shirt');
   });
   alert('Order Summary:\n\nPlacements: '+[...selected].join(', ')+'\n\n'+lines.join('\n')+'\n\nNext step: Submit to Clubflyers!');
