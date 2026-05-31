@@ -418,20 +418,23 @@ async function generate(pl) {
       var rawUrl=await callAPI(prompt,sizes[pl]);
       s.imgs[i]=rawUrl;
 
-      // Step 2: Upscale FIRST (before bg removal)
-      stat.textContent='Upscaling variation '+(i+1)+'...';
-      var upscaledUrl=await upscaleImage(rawUrl);
-
-      // Step 3: Remove background with BiRefNet
+      // Step 2: BiRefNet background removal on original size
       stat.textContent='Removing background '+(i+1)+'...';
-      var cleanUrl=await removeBgBiRefNet(upscaledUrl);
-      s.cleanImgs[i]=cleanUrl;
+      var cleanUrl=await removeBgBiRefNet(rawUrl);
 
-      // Step 4: Composite onto shirt canvas
-      var designImg=await loadImage(cleanUrl);
-      var thumbCanvas=document.createElement('canvas');
-      drawShirtCanvas(thumbCanvas,s.shirt,designImg,pl);
+      // Step 3: Upscale the clean transparent image
+      stat.textContent='Upscaling variation '+(i+1)+'...';
+      var upscaledUrl=await upscaleImage(cleanUrl);
 
+      // Step 4: Second BiRefNet pass to fix any alpha lost in upscale
+      stat.textContent='Refining edges '+(i+1)+'...';
+      var finalUrl=await removeBgFinal(upscaledUrl);
+
+      // Step 5: Canvas alpha edge cleanup
+      stat.textContent='Cleaning edges '+(i+1)+'...';
+      var cleanedUrl=await canvasAlphaCleanup(finalUrl);
+      s.cleanImgs[i]=cleanedUrl;
+      
       var vp=document.getElementById('vp-'+pl+'-'+i);
       if(vp){
         vp.outerHTML='<canvas id="vcanvas-'+pl+'-'+i+'" style="width:100%;aspect-ratio:1;border-radius:4px;display:block;margin-bottom:3px;"></canvas>';
