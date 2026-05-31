@@ -317,6 +317,7 @@ function makeThumbCanvas(shirtColor, designImgEl, placement) {
 }
 
 async function removeBg(imageUrl) {
+  // Step 1: API background removal
   var resp = await fetch(API, {
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -327,7 +328,27 @@ async function removeBg(imageUrl) {
   var data = typeof outer.raw==='string' ? JSON.parse(outer.raw) : outer;
   var url = data.image ? data.image.url : (data.data && data.data[0] ? data.data[0].url : null);
   if(!url) throw new Error('Remove BG failed: ' + text);
-  return url;
+
+  // Step 2: Canvas chroma key cleanup
+  // Remove any remaining pure green (#00FF00) pixels left after API removal
+  var img = await loadImage(url);
+  var c = document.createElement('canvas');
+  c.width = img.naturalWidth;
+  c.height = img.naturalHeight;
+  var ctx = c.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  var imageData = ctx.getImageData(0, 0, c.width, c.height);
+  var pixels = imageData.data;
+  for(var i = 0; i < pixels.length; i += 4) {
+    var r = pixels[i], g = pixels[i+1], b = pixels[i+2];
+    // Remove pure green and near-green pixels (chroma key tolerance)
+    // Green channel dominant, red and blue low
+    if(g > 180 && r < 100 && b < 100) {
+      pixels[i+3] = 0; // transparent
+    }
+  }
+  ctx.putImageData(imageData, 0, 0);
+  return c.toDataURL('image/png');
 }
 
 function loadImage(url) {
@@ -398,8 +419,7 @@ function buildPrompt(pl, vi) {
   var col = (s.palette==='Team colors'&&tc1) ? tc1+(tc2?' and '+tc2:'')+' colors' : s.palDesc;
   var sub = st ? ', secondary text says "'+st+'"' : '';
   var ico = ic ? ', incorporating '+ic+' as graphic elements' : '';
-  return 'Flat graphic design artwork for t-shirt printing. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. The design must be centered on a PURE SOLID WHITE background with NO texture, NO shirt, NO clothing, NO fabric, NO wrinkles, NO shadows, NO mockup. Clean crisp vector illustration style, isolated artwork only, print-ready, high contrast colors on white.';
-}
+  return 'Flat graphic design artwork for t-shirt printing. Main text says "'+mt+'"'+sub+ico+'. Style: '+SP[s.style]+'. Color scheme: '+col+'. Layout: '+layouts[vi]+'. The artwork must be on a PURE BRIGHT GREEN background, hex color #00FF00, RGB 0 255 0, solid flat green only, NO shirt, NO clothing, NO fabric, NO mockup, NO shadows. Clean vector illustration style, isolated artwork, print-ready, high contrast.';
 
 async function callAPI(prompt, size) {
   var resp = await fetch(API, {
